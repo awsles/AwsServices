@@ -37,7 +37,7 @@ The code isn't fancy but it is functional. Enhancement suggestions are welcomed!
 ### Script Parameters
 
 * **-ServicesOnly**
-  If indicated, then only the services are returned along with a (guessed) documentation URL.
+  If indicated, then only the services are returned along with the top level documentation URL.
 
 * **-RawDataOnly**
 	If indicated, then the raw data from the JavaScript object is returned.  This is useful
