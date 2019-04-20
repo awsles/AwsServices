@@ -28,6 +28,25 @@ again for 'Amazon SES'.  This idosyncracy carries through to the IAM policy crea
 The data is generated using a PowerShell script which outputs the two CSVs.
 The code isn't fancy but it is functional. Enhancement suggestions are welcomed!
 
+### Script Parameters
+
+* -ServicesOnly
+  If indicated, then only the services are returned along with a (guessed) documentation URL.
+
+* -RawDataOnly
+	If indicated, then the raw data from the JavaScript object is returned.  This is useful
+	as it contains information about ARNs, associated RegEx, etc.
+  
+* -ScanDocumentation
+	If indicated, then the documentation page is scanned for actions which did not
+	appear in the AWS javascript scrape.  This is MUCH slower but yields more complete results.
+  
+* -Extended
+  If indicated, returns extended information (WORK IN PROGRESS).
+  
+* -AddNote
+	If indicated, then a note row is added to the structure as the first item (useful if piping to a CSV).
+
 ## Next Steps
 Ideally, I would like to have the Resource Types,	Condition Keys, and	Dependent Actions included
 in the actions CSV. It is possible to scrape this from the documentation page but this is a bit
