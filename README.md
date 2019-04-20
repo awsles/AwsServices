@@ -25,8 +25,8 @@ again for 'Amazon SES'.  This idosyncracy carries through to the IAM policy crea
 * The 'ses:CreateConfigurationSet' appears several times as a result of the above.
 
 # Script
-The data is generated using a small PowerShell script which outputs the two CSVs.
-I will publish the script here soon.
+The data is generated using a PowerShell script which outputs the two CSVs.
+The code isn't fancy but it is functional. Enhancement suggestions are welcomed!
 
 ## Next Steps
 Ideally, I would like to have the Resource Types,	Condition Keys, and	Dependent Actions included
