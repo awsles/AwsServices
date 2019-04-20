@@ -11,8 +11,8 @@ Comment lines in the CSV (including the header at the top) start with a hastag (
 when the data was scraped along with the row count may be found at the bottom of each CSV.
 
 Unfortunately, there is no API to retrieve this data so the data is collected on a *best effort* 
-basis by reading one of the JavaScript assets used by the AWS Policy Generator (which may be
-found at https://awspolicygen.s3.amazonaws.com/policygen.html). In turn, the respective documentation
+basis by reading one of the JavaScript assets used by the AWS Policy Generator
+at https://awspolicygen.s3.amazonaws.com/policygen.html. In turn, the respective documentation
 pages are also scraped for the description and access level information. The documentation page is
 also scanned for any actions that may not appear in the javascript source.
 
