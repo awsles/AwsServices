@@ -12,17 +12,21 @@ when the data was scraped along with the row count may be found at the bottom of
 Unfortunately, there is no API to retrieve this data. The data is collected by reading the JavaScript
 assets used by the AWS Policy Generator at https://awspolicygen.s3.amazonaws.com/policygen.html. 
 In turn, the respective documentation pages are also scraped for the description and access level information.
+The documentation page is also scanned for any actions that may not appear in the javascript source.
 
 The AWS documentation may be found at:
 https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_actions-resources-contextkeys.html
 
 ## Anomalies
-In scraping the data, a few anomalies have been observed with the original source data:
+In scraping the data, a few anomalies have been observed with the original source data and/or documentation.
 
 * The service prefix 'Ses' appears twice: once for the 'Amazon Pinpoint Email Service' and
 again for 'Amazon SES'.  This idosyncracy carries through to the IAM policy creator.
 
 * The 'ses:CreateConfigurationSet' appears several times as a result of the above.
+
+* Roughly 29 actions were not found in the corresponding documentation page.
+  These are noted in the CSV.
 
 ---
 # Script
