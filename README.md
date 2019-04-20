@@ -32,7 +32,7 @@ again for '**Amazon SES**'.  This idosyncracy carries through to the IAM policy 
 
 ---
 # Script
-The data is generated using a PowerShell script which outputs the two CSVs.
+The data is generated using a PowerShell script which outputs the data for the two CSVs.
 The code isn't fancy but it is functional. Enhancement suggestions are welcomed!
 
 ### Script Parameters
