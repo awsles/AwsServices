@@ -16,8 +16,8 @@ In turn, the respective documentation pages are also scraped for the description
 The AWS documentation may be found at:
 https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_actions-resources-contextkeys.html
 
-# Anomalies
-In scraping the data, a few anomalies have been observed:
+## Anomalies
+In scraping the data, a few anomalies have been observed with the original source data:
 
 * The service prefix 'Ses' appears twice: once for the 'Amazon Pinpoint Email Service' and
 again for 'Amazon SES'.  This idosyncracy carries through to the IAM policy creator.
