@@ -20,10 +20,10 @@ The AWS documentation may be found at:
 https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_actions-resources-contextkeys.html
 
 ## Anomalies
-In scraping the data, a few anomalies have been observed with the original source data and/or documentation.
+In scraping the data, a few anomalies have been observed with the original source data and/or documentation:
 
-* The service prefix 'Ses' appears twice: once for the 'Amazon Pinpoint Email Service' and
-again for 'Amazon SES'.  This idosyncracy carries through to the IAM policy creator.
+* The service prefix '**Ses**' appears twice: once for the '**Amazon Pinpoint Email Service**' and
+again for '**Amazon SES**'.  This idosyncracy carries through to the IAM policy creator.
 
 * The 'ses:CreateConfigurationSet' appears several times as a result of the above.
 
