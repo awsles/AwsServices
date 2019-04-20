@@ -48,7 +48,7 @@ The code isn't fancy but it is functional. Enhancement suggestions are welcomed!
 * **-AddNote**
 	If indicated, then a note row is added to the structure as the first item (useful if piping to a CSV).
 
-## Next Steps
+### Next Steps
 Ideally, I would like to have the Resource Types, Condition Keys, and Dependent Actions included
 in the actions CSV. It is possible to scrape this from the documentation page but this is a bit
 more tedious, given the use of HTML column spans.
