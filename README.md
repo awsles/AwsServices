@@ -1,5 +1,6 @@
 # AwsServices
 List of AWS Services and Actions in CSV format.
+Formatted text versions are also included for browsing.
 
 ## Description
 This repository contains two CSV files which document the various AWS services as well as the
