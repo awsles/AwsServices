@@ -1,5 +1,5 @@
 # AwsServices
-List of AWS Services and Actions in CSV format.
+List of AWS Services and IAM Actions in CSV format.
 Formatted text versions are also included for browsing.
 
 ## Description
