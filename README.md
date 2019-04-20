@@ -54,6 +54,10 @@ The code isn't fancy but it is functional. Enhancement suggestions are welcomed!
 	If indicated, then a note row is added to the structure as the first item (useful if piping to a CSV).
 
 ### Next Steps
-Ideally, I would like to have the Resource Types, Condition Keys, and Dependent Actions included
+The next step is to put some automation around my script so that this repository is automatically
+updated regularly or when any changes are detected. I also plan to start tracking additions & deletions
+to the actions and mark them accordingly (handy to see what's new and what has been depricated).
+
+Also, I would like to have the Resource Types, Condition Keys, and Dependent Actions included
 in the actions CSV. It is possible to scrape this from the documentation page but this is a bit
 more tedious, given the use of HTML column spans.
