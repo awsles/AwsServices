@@ -19,6 +19,9 @@ also scanned for any actions that may not appear in the javascript source.
 The AWS documentation may be found at:
 https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_actions-resources-contextkeys.html
 
+The list of AWS Policy Global Condition keys may be found at:
+https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#AvailableKeys
+
 ## Anomalies
 In scraping the data, a few anomalies have been observed with the original source data and/or documentation:
 
