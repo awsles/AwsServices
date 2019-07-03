@@ -27,7 +27,12 @@
 		.\Get-AwsServices.ps1 | Out-GridView
 	
 	TO GET A CSV:
-		.\Get-AwsServices.ps1 -AddNote | Export-Csv -Path 'AwsActions.csv' -force
+		.\Get-AwsServices.ps1 -AddNote | Export-Csv -Path 'AwsServiceActions.csv' -force
+		
+	TO CONVERT CSV TO FORMATTED TEXT:
+		"{0,-56} {1,-80} {2,-23} {3}" -f 'ServiceName','Action','AccessLevel','Description' | out-file -FilePath 'AwsServiceActions.txt' -force 
+		"=" * 160 | out-file -FilePath 'AwsServiceActions.txt' -Append
+		Import-Csv -Path 'AwsServiceActions.csv' | foreach { ("{0,-56} {1,-80} {2,-23} {3}" -f $_.ServiceName, $_.Action, $_.AccessLevel, $_.Description) } | out-file -FilePath 'AwsServiceActions.txt' -Append
 
 	TO SEE A LIST OF SERVICES:
 		.\Get-AwsServices.ps1 -ServicesOnly
@@ -37,8 +42,8 @@
 
 .NOTES
 	Author: Lester W.
-	Version: v0.17a
-	Date: 20-Apr-19
+	Version: v0.18
+	Date: 03-Jul-19
 	Repository: https://github.com/lesterw1/AwsServices
 	License: MIT License
 	
