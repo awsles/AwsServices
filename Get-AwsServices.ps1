@@ -210,7 +210,10 @@ foreach ($service in $ServiceList)
 		# Extract Content
 		$Content2				= $WebResponse2.Content										# Get HTML content
 		$ActionsIndex			= $Content2.IndexOf('<th>Actions</th>')						# Marker we use
-		$TableIndex				= $Content2.IndexOf('<table', $ActionsIndex-300)			# Go back a bit to find start
+		if ($ActionsIndex -gt 300)
+			{ $TableIndex		= $Content2.IndexOf('<table', $ActionsIndex-300) }			# Go back a bit to find start
+		else
+			{ $TableIndex		= $Content2.IndexOf('<table', 0) }
 		$TableBody				= $Content2.SubString($TableIndex)							# Start of Actions Table
 		$TableBody				= $TableBody.SubString(0, $TableBody.IndexOf('</table>')+8)	# Capture Table
 		## Extract Table ID
