@@ -24,20 +24,20 @@
 
 .EXAMPLE	
 	TO SEE A QUICK VIEW:
-		.\Get-AwsPolicies.ps1 | Out-GridView
+		.\Get-AwsServices.ps1 | Out-GridView
 	
 	TO GET A CSV:
-		.\Get-AwsPolicies.ps1 -AddNote | Export-Csv -Path 'AwsActions.csv' -force
+		.\Get-AwsServices.ps1 -AddNote | Export-Csv -Path 'AwsActions.csv' -force
 
 	TO SEE A LIST OF SERVICES:
-		.\Get-AwsPolicies.ps1 -ServicesOnly
+		.\Get-AwsServices.ps1 -ServicesOnly
 	
 	TO SEE A LIST OF ACTIONS FOR A SERVICE:
-		(.\Get-AwsPolicies.ps1 -RawDataOnly).ServiceMap."Amazon Redshift".Actions   # All Amazon Redshift actions
+		(.\Get-AwsServices.ps1 -RawDataOnly).ServiceMap."Amazon Redshift".Actions   # All Amazon Redshift actions
 
 .NOTES
 	Author: Lester W.
-	Version: v0.17
+	Version: v0.17a
 	Date: 20-Apr-19
 	Repository: https://github.com/lesterw1/AwsServices
 	License: MIT License
