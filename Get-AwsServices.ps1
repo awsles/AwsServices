@@ -31,7 +31,7 @@
 		
 	TO CONVERT CSV TO FORMATTED TEXT:
 		"{0,-56} {1,-80} {2,-23} {3}" -f 'ServiceName','Action','AccessLevel','Description' | out-file -FilePath 'AwsServiceActions.txt' -force 
-		"=" * 160 | out-file -FilePath 'AwsServiceActions.txt' -Append
+		"=" * 210 | out-file -FilePath 'AwsServiceActions.txt' -Append
 		Import-Csv -Path 'AwsServiceActions.csv' | foreach { ("{0,-56} {1,-80} {2,-23} {3}" -f $_.ServiceName, $_.Action, $_.AccessLevel, $_.Description) } | out-file -FilePath 'AwsServiceActions.txt' -Append
 
 	TO SEE A LIST OF SERVICES:
