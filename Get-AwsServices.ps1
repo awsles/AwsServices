@@ -42,8 +42,8 @@
 
 .NOTES
 	Author: Lester W.
-	Version: v0.18
-	Date: 03-Jul-19
+	Version: v0.19
+	Date: 31-Oct-19
 	Repository: https://github.com/lesterw1/AwsServices
 	License: MIT License
 	
@@ -254,12 +254,19 @@ foreach ($service in $ServiceList)
 			
 				# Check $row.innerHTML for rowspan=xxx so we can skip subsequent rows as needed...
 				$RowSpan = [int32] 1		# Assume no rowspan
-				$RowSpanIndex = $row.InnerHTML.ToLower().IndexOf(' rowspan=')
-				if ($RowSpanIndex -gt 0)
+				Try
 				{
-					# TBD
-					$RowSpanTxt	= $row.InnerHTML.SubString($RowSpanIndex + 9)
-					$RowSpan	= [int32] $RowSpanTxt.SubString(0,$RowSpanTxt.IndexOf('>'))  # CAREFUL! Could be a space!!
+					$RowSpanIndex = $row.InnerHTML.ToLower().IndexOf(' rowspan=')
+					if ($RowSpanIndex -gt 0)
+					{
+						# TBD
+						$RowSpanTxt	= $row.InnerHTML.SubString($RowSpanIndex + 9)
+						$RowSpan	= [int32] $RowSpanTxt.SubString(0,$RowSpanTxt.IndexOf('>'))  # CAREFUL! Could be a space!!
+					}
+				}
+				Catch
+				{
+					; # Do Nothing
 				}
 				
 				# Extract Cells
