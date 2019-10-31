@@ -56,6 +56,31 @@ The code isn't fancy but it is functional. Enhancement suggestions are welcomed!
   
 * **-AddNote**
 	If indicated, then a note row is added to the structure as the first item (useful if piping to a CSV).
+	
+### Usage Examples
+
+TO SEE A QUICK VIEW:
+
+``.\Get-AwsServices.ps1 | Out-GridView``
+	
+TO GET A CSV:
+
+``.\Get-AwsServices.ps1 -AddNote | Export-Csv -Path 'AwsServiceActions.csv' -force``
+		
+TO CONVERT CSV TO FORMATTED TEXT:
+
+``"{0,-56} {1,-80} {2,-23} {3}" -f 'ServiceName','Action','AccessLevel','Description' | out-file -FilePath 'AwsServiceActions.txt' -force 
+"=" * 210 | out-file -FilePath 'AwsServiceActions.txt' -Append
+	Import-Csv -Path 'AwsServiceActions.csv' | foreach { ("{0,-56} {1,-80} {2,-23} {3}" -f $_.ServiceName, $_.Action, $_.AccessLevel, $_.Description) } | out-file -FilePath 'AwsServiceActions.txt' -Append``
+
+TO SEE A LIST OF SERVICES:
+
+``.\Get-AwsServices.ps1 -ServicesOnly``
+	
+TO SEE A LIST OF ACTIONS FOR A SERVICE:
+
+``(.\Get-AwsServices.ps1 -RawDataOnly).ServiceMap."Amazon Redshift".Actions   # All Amazon Redshift actions``
+
 
 ### Next Steps
 The next step is to put some automation around my script so that this repository is automatically
