@@ -10,11 +10,11 @@ to be able to see all actions in one place.
 Comment lines in the CSV (including the header at the top) start with a hastag (#).  The date
 when the data was scraped along with the row count may be found at the bottom of each CSV.
 
-Unfortunately, there is no API to retrieve this data so the data is collected on a *best effort* 
-basis by reading one of the JavaScript assets used by the AWS Policy Generator
-at https://awspolicygen.s3.amazonaws.com/policygen.html. In turn, the respective documentation
-pages are also scraped for the description and access level information. The documentation page is
-also scanned for any actions that may not appear in the javascript source.
+Unfortunately, there is no API to retrieve the complete list of services or their respective operations
+the data must be collected on a *best effort* basis by reading one of the JavaScript assets used by the
+AWS Policy Generatorvat https://awspolicygen.s3.amazonaws.com/policygen.html.
+In turn, the respective documentation pages are also scraped for the description and access level information.
+The documentation page is also scanned for any actions that may not appear in the javascript source.
 
 The AWS documentation may be found at:
 https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_actions-resources-contextkeys.html
@@ -30,7 +30,8 @@ again for '**Amazon SES**'.  This idosyncracy carries through to the IAM policy 
 
 * The 'ses:CreateConfigurationSet' appears several times as a result of the above.
 
-* Roughly 29 actions were not found in the corresponding documentation page.
+* Sometimes actions are not found in the corresponding documentation pages. This usually occurs when changes
+are out of sync between the documentation and the input to the policy generator.
   These are noted in the CSV.
 
 ---
@@ -52,7 +53,7 @@ The code isn't fancy but it is functional. Enhancement suggestions are welcomed!
 	appear in the AWS javascript scrape.  This is MUCH slower but yields more complete results.
   
 * **-Extended**
-  If indicated, returns extended information (WORK IN PROGRESS).
+	If indicated, returns extended information (WORK IN PROGRESS).
   
 * **-AddNote**
 	If indicated, then a note row is added to the structure as the first item (useful if piping to a CSV).
