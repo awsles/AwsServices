@@ -34,16 +34,16 @@
 		"=" * 210 | out-file -FilePath 'AwsServiceActions.txt' -Append
 		Import-Csv -Path 'AwsServiceActions.csv' | foreach { ("{0,-56} {1,-80} {2,-23} {3}" -f $_.ServiceName, $_.Action, $_.AccessLevel, $_.Description) } | out-file -FilePath 'AwsServiceActions.txt' -Append
 
-	TO SEE A LIST OF SERVICES:
-		.\Get-AwsServices.ps1 -ServicesOnly
+	TO GET A LIST OF SERVICES:
+		.\Get-AwsServices.ps1 -ServicesOnly | Export-Csv -Path 'AwsServices.csv' -force
 	
 	TO SEE A LIST OF ACTIONS FOR A SERVICE:
 		(.\Get-AwsServices.ps1 -RawDataOnly).ServiceMap."Amazon Redshift".Actions   # All Amazon Redshift actions
 
 .NOTES
 	Author: Lester W.
-	Version: v0.19
-	Date: 31-Oct-19
+	Version: v0.19a
+	Date: 05-Dec-19
 	Repository: https://github.com/lesterw1/AwsServices
 	License: MIT License
 	
