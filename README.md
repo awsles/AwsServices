@@ -2,6 +2,8 @@
 List of AWS Services and IAM Actions in CSV format.
 Formatted text versions are also included for browsing.
 
+Useful for anyone responsible for managing AWS IAM role and policy definitions.
+
 ## Description
 This repository contains two CSV files which document the various AWS services as well as the
 actions used in policy permissions. This is quite useful when doing policy and role planning
