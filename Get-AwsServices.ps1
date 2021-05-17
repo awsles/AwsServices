@@ -29,21 +29,25 @@
 	TO GET A CSV:
 		.\Get-AwsServices.ps1 -AddNote | Export-Csv -Path 'AwsServiceActions.csv' -force
 		
-	TO CONVERT CSV TO FORMATTED TEXT:
-		"{0,-56} {1,-80} {2,-23} {3}" -f 'ServiceName','Action','AccessLevel','Description' | out-file -FilePath 'AwsServiceActions.txt' -force 
-		"=" * 210 | out-file -FilePath 'AwsServiceActions.txt' -Append
-		Import-Csv -Path 'AwsServiceActions.csv' | foreach { ("{0,-56} {1,-80} {2,-23} {3}" -f $_.ServiceName, $_.Action, $_.AccessLevel, $_.Description) } | out-file -FilePath 'AwsServiceActions.txt' -Append
+	TO CONVERT AwsServiceActions.CSV TO FORMATTED TEXT:
+		"{0,-56} {1,-80} {2,-23} {3}" -f 'ServiceName','Action','AccessLevel','Description' | out-file -FilePath 'AwsServiceActions.txt' -Encoding utf8 -force -width 210 ;
+		Import-Csv -Path 'AwsServiceActions.csv' | foreach { ("{0,-56} {1,-80} {2,-23} {3}" -f $_.ServiceName, $_.Action, $_.AccessLevel, $_.Description) } | out-file -FilePath 'AwsServiceActions.txt' -width 210 -Encoding utf8 -Append
 
 	TO GET A LIST OF SERVICES:
-		.\Get-AwsServices.ps1 -ServicesOnly | Export-Csv -Path 'AwsServices.csv' -force
+		.\Get-AwsServices.ps1 -ServicesOnly | Export-Csv -Path 'AwsServices.csv' -Encoding utf8 -force
 	
+	TO CONVERT AwsServices.CSV TO FORMATTED TEXT:
+	ServiceName                                                                                                                                         
+		"{0,-56} {1,-25} {2}" -f 'ServiceName','ServiceShortName','ARNFormat' | out-file -FilePath 'AwsServices.txt' -Encoding utf8 -force -width 210 ;
+		Import-Csv -Path 'AwsServices.csv' | foreach { ("{0,-56} {1,-25} {2}" -f $_.ServiceName, $_.ServiceShortName, $_.ARNFormat) } | out-file -FilePath 'AwsServices.txt' -width 210 -Encoding utf8 -Append
+
 	TO SEE A LIST OF ACTIONS FOR A SERVICE:
 		(.\Get-AwsServices.ps1 -RawDataOnly).ServiceMap."Amazon Redshift".Actions   # All Amazon Redshift actions
 
 .NOTES
 	Author: Lester W.
-	Version: v0.19a
-	Date: 05-Dec-19
+	Version: v0.19b
+	Date: 17-May-21
 	Repository: https://github.com/lesterw1/AwsServices
 	License: MIT License
 	
