@@ -5,9 +5,9 @@ Formatted text versions are also included for browsing.
 Useful for anyone responsible for managing AWS IAM role and policy definitions.
 
 ## Description
-This repository contains two CSV files which document the various AWS services as well as the
+This repository contains two CSV files which document the various AWS services with the
 actions used in policy permissions. This is quite useful when doing policy and role planning
-to be able to see all actions in one place. 
+to be able to see all actions in one place. The script which generates this is also here.
 
 Comment lines in the CSV (including the header at the top) start with a hastag (#).  The date
 when the data was scraped along with the row count may be found at the bottom of each CSV.
@@ -45,6 +45,7 @@ The code isn't fancy but it is functional. Enhancement suggestions are welcomed!
 
 * **-ServicesOnly**
   If indicated, then only the services are returned along with the top level documentation URL.
+  Useful for getting a quick list of AWS services.
 
 * **-RawDataOnly**
 	If indicated, then the raw data from the JavaScript object is returned.  This is useful
