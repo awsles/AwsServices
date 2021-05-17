@@ -27,7 +27,7 @@
 		.\Get-AwsServices.ps1 | Out-GridView
 	
 	TO GET A CSV:
-		.\Get-AwsServices.ps1 -AddNote | Export-Csv -Path 'AwsServiceActions.csv' -force
+		.\Get-AwsServices.ps1 -AddNote | Export-Csv -Path 'AwsServiceActions.csv' -encoding utf8 -force
 		
 	TO CONVERT AwsServiceActions.CSV TO FORMATTED TEXT:
 		"{0,-56} {1,-80} {2,-23} {3}" -f 'ServiceName','Action','AccessLevel','Description' | out-file -FilePath 'AwsServiceActions.txt' -Encoding utf8 -force -width 210 ;
@@ -46,7 +46,7 @@
 
 .NOTES
 	Author: Lester W.
-	Version: v0.19b
+	Version: v0.19c
 	Date: 17-May-21
 	Repository: https://github.com/lesterw1/AwsServices
 	License: MIT License
