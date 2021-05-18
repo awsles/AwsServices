@@ -83,7 +83,6 @@ TO SEE A LIST OF ACTIONS FOR A SERVICE:
 
 ``(.\Get-AwsServices.ps1 -RawDataOnly).ServiceMap."Amazon Redshift".Actions   # All Amazon Redshift actions``
 
-
 ### Next Steps
 The next step is to put some automation around my script so that this repository is automatically
 updated regularly or when any changes are detected. I also plan to start tracking additions & deletions
@@ -92,3 +91,7 @@ to the actions and mark them accordingly (handy to see what's new and what has b
 Also, I would like to have the Resource Types, Condition Keys, and Dependent Actions included
 in the actions CSV. It is possible to scrape this from the documentation page but this is a bit
 more tedious, given the use of HTML column spans.
+
+---
+# References
+* _Understanding AWS Policies_ - https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_understand.html
