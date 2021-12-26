@@ -14,9 +14,9 @@ when the data was scraped along with the row count may be found at the bottom of
 
 Unfortunately, there is no API to retrieve the complete list of services or their respective operations
 the data must be collected on a *best effort* basis by reading one of the JavaScript assets used by the
-AWS Policy Generatorvat https://awspolicygen.s3.amazonaws.com/policygen.html.
-In turn, the respective documentation pages are also scraped for the description and access level information.
-The documentation page is also scanned for any actions that may not appear in the javascript source.
+AWS Policy Generator at https://awspolicygen.s3.amazonaws.com/policygen.html.
+In addition, the respective documentation pages are also scraped for the description and access level information.
+The documentation page is also scanned for any actions that may not appear in the javascript asset list.
 
 The AWS documentation may be found at:
 https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_actions-resources-contextkeys.html
@@ -39,7 +39,7 @@ are out of sync between the documentation and the input to the policy generator.
 ---
 # Script
 The data is generated using a PowerShell script which outputs the data for the two CSVs.
-The code isn't fancy but it is functional. Enhancement suggestions are welcomed!
+The code isn't fancy but it is functional. Enhancements & suggestions are welcomed!
 
 ### Script Parameters
 
