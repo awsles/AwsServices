@@ -8,6 +8,9 @@
 	at https://awspolicygen.s3.amazonaws.com/policygen.html. 
 	The documentation page is also scraped for the description and access level information.
 	This script is necessary as there is (unfortunately) no AWS API which returns this information.
+	
+	Note that you do NOT need to be logged into AWS in order to run this script.
+	This script also discovers inconsistencies between AWS documentation and the policy generator.
 
 .PARAMETER ServicesOnly
 	If indicated, then only the services are returned along with a (guessed) documentation URL.
@@ -29,14 +32,14 @@
 	TO GET A CSV:
 		.\Get-AwsServices.ps1 -AddNote | Export-Csv -Path 'AwsServiceActions.csv' -encoding utf8 -force
 		
-	TO CONVERT AwsServiceActions.CSV TO FORMATTED TEXT:
+	TO CONVERT the above AwsServiceActions.CSV TO FORMATTED TEXT:
 		"{0,-56} {1,-80} {2,-23} {3}" -f 'ServiceName','Action','AccessLevel','Description' | out-file -FilePath 'AwsServiceActions.txt' -Encoding utf8 -force -width 210 ;
 		Import-Csv -Path 'AwsServiceActions.csv' | foreach { ("{0,-56} {1,-80} {2,-23} {3}" -f $_.ServiceName, $_.Action, $_.AccessLevel, $_.Description) } | out-file -FilePath 'AwsServiceActions.txt' -width 210 -Encoding utf8 -Append
 
-	TO GET A LIST OF SERVICES:
+	TO GET A LIST OF SERVICES only:
 		.\Get-AwsServices.ps1 -ServicesOnly | Export-Csv -Path 'AwsServices.csv' -Encoding utf8 -force
 	
-	TO CONVERT AwsServices.CSV TO FORMATTED TEXT:
+	TO CONVERT the above AwsServices.CSV TO FORMATTED TEXT:
 	ServiceName                                                                                                                                         
 		"{0,-56} {1,-25} {2}" -f 'ServiceName','ServiceShortName','ARNFormat' | out-file -FilePath 'AwsServices.txt' -Encoding utf8 -force -width 210 ;
 		Import-Csv -Path 'AwsServices.csv' | foreach { ("{0,-56} {1,-25} {2}" -f $_.ServiceName, $_.ServiceShortName, $_.ARNFormat) } | out-file -FilePath 'AwsServices.txt' -width 210 -Encoding utf8 -Append
@@ -46,8 +49,8 @@
 
 .NOTES
 	Author: Lester W.
-	Version: v0.19c
-	Date: 17-May-21
+	Version: v0.20
+	Date: 26-Dec-21
 	Repository: https://github.com/lesterw1/AwsServices
 	License: MIT License
 	
@@ -124,7 +127,8 @@ $AwsDocRoot		= "https://docs.aws.amazon.com/IAM/latest/UserGuide/list_%SERVICE%.
 # +=================================================================================================+
 # |  LOGIN		              																		|
 # +=================================================================================================+
-# Needed to ensure default credentials are in place for Proxy
+# Needed to ensure default credentials are in place for any proxy server
+# AWS login is NOT required.
 $browser = New-Object System.Net.WebClient
 $browser.Proxy.Credentials =[System.Net.CredentialCache]::DefaultNetworkCredentials 
 
@@ -223,15 +227,24 @@ foreach ($service in $ServiceList)
 			{ $TableIndex		= $Content2.IndexOf('<table', $ActionsIndex-300) }			# Go back a bit to find start
 		else
 			{ $TableIndex		= $Content2.IndexOf('<table', 0) }
-		$TableBody				= $Content2.SubString($TableIndex)							# Start of Actions Table
-		$TableBody				= $TableBody.SubString(0, $TableBody.IndexOf('</table>')+8)	# Capture Table
-		## Extract Table ID
-		$TableId				= $TableBody.SubString($TableBody.IndexOf(' id="')+5)
-		$TableId				= $TableId.SubString(0, $TableId.IndexOf('"'))
-		write-verbose "TableId: $TableId"
+		# If we got something...
+		if ($TableIndex -ge 0)
+		{
+			$TableBody				= $Content2.SubString($TableIndex)							# Start of Actions Table
+			$TableBody				= $TableBody.SubString(0, $TableBody.IndexOf('</table>')+8)	# Capture Table
+			## Extract Table ID
+			$TableId				= $TableBody.SubString($TableBody.IndexOf(' id="')+5)
+			$TableId				= $TableId.SubString(0, $TableId.IndexOf('"'))
+			write-verbose "TableId: $TableId"
+		}
+		else
+		{
+			# Failed
+			$TableId = $null
+		}
 		
 		## Scan the documentation page (if requested)
-		if ($ScanDocumentation)
+		if ($ScanDocumentation -And $TableId)
 		{
 			# Extract table elements into DocumentedActions()
 			# This allows us to eliminate actions that we see, leaving only those that weren't in the JavaScript
