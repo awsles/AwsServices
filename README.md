@@ -1,8 +1,8 @@
 # AwsServices
-List of AWS Services and IAM Actions in CSV format.
+List of AWS Services and IAM Actions in CSV format, automatically extracted from
+the AWS policy generator and AWS documentation.
+Useful information for anyone responsible for managing AWS IAM role and policy definitions.
 Formatted text versions are also included for browsing.
-
-Useful for anyone responsible for managing AWS IAM role and policy definitions.
 
 ## Description
 This repository contains two CSV files which document the various AWS services with the
@@ -23,6 +23,9 @@ https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_actions-reso
 
 The list of AWS Policy Global Condition keys may be found at:
 https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#AvailableKeys
+
+A similar script for Azure permissions may be found at:
+https://github.com/leswaters/AzureServices
 
 ## Anomalies
 In scraping the data, a few anomalies have been observed with the original source data and/or documentation:
@@ -63,23 +66,26 @@ The code isn't fancy but it is functional. Enhancements & suggestions are welcom
 	
 ### Usage Examples
 
-TO SEE A QUICK VIEW:
+TO VIEW AWS SERVICES AND ACTIONS:
 
 ``.\Get-AwsServices.ps1 | Out-GridView``
 	
-TO GET A CSV:
+TO GENERATE A CSV OF SERVICES AND ACTIONS:
 
 ``.\Get-AwsServices.ps1 -AddNote | Export-Csv -Path 'AwsServiceActions.csv' -force``
 		
-TO CONVERT CSV TO FORMATTED TEXT:
+TO CONVERT ABOVE CSV TO FORMATTED TEXT:
 
 ``"{0,-56} {1,-80} {2,-23} {3}" -f 'ServiceName','Action','AccessLevel','Description' | out-file -FilePath 'AwsServiceActions.txt' -Encoding utf8 -force -width 210; Import-Csv -Path 'AwsServiceActions.csv' | foreach { ("{0,-56} {1,-80} {2,-23} {3}" -f $_.ServiceName, $_.Action, $_.AccessLevel, $_.Description) } | out-file -FilePath 'AwsServiceActions.txt' -width 210 -Encoding utf8 -Append``
 
-TO SEE A LIST OF SERVICES:
+TO GET A LIST OF SERVICES only AS A CSV:
+``.\Get-AwsServices.ps1 -ServicesOnly | Export-Csv -Path 'AwsServices.csv' -Encoding utf8 -force``
+
+TO VIEW A LIST OF SERVICES:
 
 ``.\Get-AwsServices.ps1 -ServicesOnly``
 	
-TO SEE A LIST OF ACTIONS FOR A SERVICE:
+TO SEE A LIST OF ACTIONS FOR A SPECIFIC SERVICE:
 
 ``(.\Get-AwsServices.ps1 -RawDataOnly).ServiceMap."Amazon Redshift".Actions   # All Amazon Redshift actions``
 
