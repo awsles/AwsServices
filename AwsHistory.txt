@@ -1,0 +1,10 @@
+﻿========================= AwsHistory.txt =========================
+This file contains the observed history of AWS Services and Actions.
+Where previous results are provided, a comparison is displayed with observed changes.
+
+
+====================================================================================================
+04-May-2022 : There are 12388 across 325 AWS services.
+              0 changes have been detected: 0 new; 0 deprecated.
+
+
