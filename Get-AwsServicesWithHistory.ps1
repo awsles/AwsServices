@@ -28,8 +28,8 @@
 
 .NOTES
 	Author: Lester W.
-	Version: v0.05
-	Date: 04-May-22
+	Version: v0.06
+	Date: 19-May-22
 	Repository: https://github.com/lesterw1/AwsServices
 	License: MIT License
 	
@@ -135,7 +135,7 @@ if ($HistoryFile)
 	'=' * 100 | out-file -FilePath $HistoryFile -Encoding UTF8 -Append -width 250
 	
 	# Add the timestamp and summary
-	"$Today : There are $($CurrentData.Actions.Count) across $($ServiceNames.Count) AWS services.`n              $($Results.Count) changes have been detected: $($NewActions.Count) new; $($Deprecated.Count) deprecated." `
+	"$Today : There are $($CurrentData.Actions.Count) actions across $($ServiceNames.Count) AWS services.`n              $($Results.Count) changes have been detected: $($NewActions.Count) new; $($Deprecated.Count) deprecated." `
 		| out-file -FilePath $HistoryFile -Encoding UTF8 -Append 
 		
 	if ($Warnings)
