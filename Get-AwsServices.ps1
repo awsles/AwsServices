@@ -51,7 +51,7 @@
 	Author: Lester W.
 	Version: v0.20
 	Date: 26-Dec-21
-	Repository: https://github.com/lesterw1/AwsServices
+	Repository: https://github.com/leswaters/AwsServices
 	License: MIT License
 	
 	INPUT DATA:

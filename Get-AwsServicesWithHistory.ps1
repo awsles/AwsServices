@@ -30,10 +30,12 @@
 	Author: Lester W.
 	Version: v0.06
 	Date: 19-May-22
-	Repository: https://github.com/lesterw1/AwsServices
+	Repository: https://github.com/leswaters/AwsServices
 	License: MIT License
 	
-	$Warnings are not propagated back up... to be fixed.
+	TO DO:
+	* Update service list CSV and TXT as well.
+	* $Warnings are not propagated back up... to be fixed.
 	
 .LINK
 	https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_actions-resources-contextkeys.html
