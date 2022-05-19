@@ -8,3 +8,18 @@ Where previous results are provided, a comparison is displayed with observed cha
               0 changes have been detected: 0 new; 0 deprecated.
 
 
+====================================================================================================
+19-May-2022 : There are 12394 across 325 AWS services.
+              6 changes have been detected: 6 new; 0 deprecated.
+
+NEW ACTIONS:
+  ServiceName                                              Action                                                                           AccessLevel             Description
+  -----------                                              ------                                                                           -----------             -----------
+  Amazon Managed Grafana                                   grafana:CreateWorkspaceApiKey                                                    Write                   Grants permission to create API keys for a workspace
+  Amazon Managed Grafana                                   grafana:DeleteWorkspaceApiKey                                                    Write                   Grants permission to delete API keys from a workspace
+  AWS IoT                                                  iot:RotateTunnelAccessToken                                                      Write                   Grants permission to rotate the access token of a tunnel
+  AWS IoT Events                                           iotevents:BatchDeleteDetector                                                    Write                   Grants permission to delete a detector instance within the AWS IoT Events system
+  Amazon QuickSight                                        quicksight:UpdatePublicSharingSettings                                           Write                   Grants permission to enable or disable public sharing on an account
+  AWS SQL Workbench                                        sqlworkbench:UpdateAccountExportSettings                                         Write                   Grants permission to update account-wide export settings
+
+
