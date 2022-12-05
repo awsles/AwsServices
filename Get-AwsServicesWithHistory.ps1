@@ -2,7 +2,9 @@
 <#
 .SYNOPSIS
 	Returns AWS policy actions as a structure and records the history
-	of what differs from the previous data.
+	of what differs from the previous data. 
+	
+	This should be run BEFORE running Get-AwsServices.ps1 (which will update AwsServiceActions.csv).
 	
 .DESCRIPTION
 	This script calls Get-AwsServices.ps1 and compares the results with the previous
@@ -28,8 +30,8 @@
 
 .NOTES
 	Author: Lester W.
-	Version: v0.06
-	Date: 19-May-22
+	Version: v0.06a
+	Date: 05-Dec-22
 	Repository: https://github.com/leswaters/AwsServices
 	License: MIT License
 	
