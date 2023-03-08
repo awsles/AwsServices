@@ -23,6 +23,7 @@ Amazon CodeCatalyst                                      codecatalyst           
 Amazon CodeGuru                                          codeguru                  arn:${Partition}:codeguru:${Region}:${Account}:${ResourceType}/${ResourceName}
 Amazon CodeGuru Profiler                                 codeguru-profiler         arn:aws:codeguru-profiler:${Region}:${Account}:${ResourceType}/${ResourceName}
 Amazon CodeGuru Reviewer                                 codeguru-reviewer         arn:aws:codeguru-reviewer:${Region}:${Account}:${ResourceType}:${ResourceName}
+Amazon CodeGuru Security                                 codeguru-security         arn:${Partition}:codeguru-security:${Region}:${Account}:*
 Amazon CodeWhisperer                                     codewhisperer             arn:aws:codewhisperer:${Region}:${Account}:${ResourceType}/${ResourceId}
 Amazon Cognito Identity                                  cognito-identity          arn:aws:cognito-identity:${Region}:${Account}:${ResourceType}/${ResourcePath}
 Amazon Cognito Sync                                      cognito-sync              arn:aws:cognito-sync:${Region}:${Account}:${ResourceType}/${ResourcePath}:
@@ -61,6 +62,7 @@ Amazon EventBridge Pipes                                 pipes                  
 Amazon EventBridge Scheduler                             scheduler                 arn:aws:scheduler:${Region}:${Account}:${ResourceType}/${ResourceName}
 Amazon EventBridge Schemas                               schemas                   arn:aws:schemas:${Region}:${Account}:${ResourceType}/${ResourceName}
 Amazon FinSpace                                          finspace                  arn:aws:finspace:${Region}:${Account}:${ResourceType}/${ResourcePath}
+Amazon FinSpace API                                      finspace-api              arn:aws:finspace-api:${Region}:${Account}:${ResourceType}/${ResourcePath}
 Amazon Forecast                                          forecast                  arn:aws:forecast:${Region}:${Account}:${ResourceType}/${ResourceId}
 Amazon Fraud Detector                                    frauddetector             arn:aws:frauddetector:${Region}:${Account}:${ResourceType}/${ResourceName}
 Amazon FreeRTOS                                          freertos                  arn:aws:freertos:${Region}:${Account}:${Type}/${Name}
@@ -125,7 +127,7 @@ Amazon Redshift Data API                                 redshift-data          
 Amazon Redshift Serverless                               redshift-serverless       arn:aws:redshift-serverless:${Region}:${Account}:${ResourceType}/${ResourcePath}
 Amazon Rekognition                                       rekognition               arn:aws:rekognition:${Region}:${Account}:${RelativeId}
 Amazon Resource Group Tagging API                        tag                       
-Amazon RHEL Knowledgebase Portal                         rhelkb                    arn:aws:rhelkb:${Region}:${AccountId}:${ResourceType}/${ResourceName}
+Amazon RHEL Knowledgebase Portal                         rhelkb                    arn:${Partition}:rhelkb:${Region}:${Account}:${ResourceType}/${ResourceName}
 Amazon Route 53                                          route53                   arn:aws:route53:::${Resource}/{$Id}
 Amazon Route 53 Application Recovery Controller - Zonal Shift arc-zonal-shift           arn:aws:arc-zonal-shift:${Region}:${Account}:${ResourceType}/${ResourceName}
 Amazon Route 53 Domains                                  route53domains            
@@ -250,7 +252,7 @@ AWS Free Tier                                            freetier
 AWS Global Accelerator                                   globalaccelerator         arn:aws:globalaccelerator::${Account}:accelerator/${AcceleratorId}
 AWS Glue                                                 glue                      arn:aws:glue:${Region}:${Account}:${ResourceType}/${ResourcePath}
 AWS Glue DataBrew                                        databrew                  arn:aws:databrew:${Region}:${Account}:${ResourceType}/${ResourceId}
-AWS Ground Station                                       groundstation             arn:aws:groundstation:${Region}:${AccountID}:${ResourceType}/${ResourceId}
+AWS Ground Station                                       groundstation             arn:aws:groundstation:${Region}:${Account}:${ResourceType}/${ResourceId}
 AWS Health APIs and Notifications                        health                    arn:aws:health::${Namespace}:${RelativeId}
 AWS IAM Access Analyzer                                  access-analyzer           arn:aws:access-analyzer:${Region}:${Account}:analyzer/${AnalyzerName}
 AWS IAM Identity Center (successor to AWS Single Sign-On) sso                       arn:aws:sso:::${RelativeId}
@@ -340,6 +342,7 @@ AWS Snowball                                             snowball
 AWS SQL Workbench                                        sqlworkbench              arn:aws:sqlworkbench:${Region}:${Account}:${ResourceType}/${ResourceName}
 AWS Step Functions                                       states                    arn:aws:states:${Region}:${Account}:${ResourceType}:${ResourceName}
 AWS Storage Gateway                                      storagegateway            arn:aws:storagegateway:${Region}:${Account}:${ResourceType}/${ResourceName}
+AWS Supply Chain                                         scn                       arn:aws:scn:${Region}:${Account}:instance/
 AWS Support                                              support                   
 AWS Support App in Slack                                 supportapp                
 AWS Support Plans                                        supportplans              ^arn:${Partition}:supportplans::${Account}:${ResourceType}/${ResourcePath}
@@ -351,6 +354,7 @@ AWS Systems Manager Incident Manager                     ssm-incidents          
 AWS Systems Manager Incident Manager Contacts            ssm-contacts              arn:aws:ssm-contacts:${Region}:${Account}:${ResourceType}/${ResourceId}
 AWS Tag Editor                                           resource-explorer         arn:${Partition}:resource-explorer:${Region}:${Account}:${ResourceType}/${ResourceName}
 AWS Tax Settings                                         tax                       
+AWS Telco Network Builder                                tnb                       arn:aws:tnb:${Region}:${Account}:${RelativeId}
 AWS Tiros                                                tiros                     arn:${Partition}:tiros:${Region}:${Account}:${RelativeId}
 AWS Transfer Family                                      transfer                  arn:aws:transfer:${Region}:${Account}:${ResourceType}/${ResourceName}
 AWS Trusted Advisor                                      trustedadvisor            arn:aws:trustedadvisor:${Region}:${Account}:checks/${Category}/${CheckId}
@@ -358,7 +362,7 @@ AWS WAF                                                  waf                    
 AWS WAF Regional                                         waf-regional              arn:aws:waf-regional:${Region}:${Account}:${ResourceId}/${Id}
 AWS WAF V2                                               wafv2                     arn:aws:wafv2:${Region}:${Account}:${Scope}/${ResourceType}/${ResourceName}/${ResourceId}
 AWS Well-Architected Tool                                wellarchitected           arn:aws:wellarchitected:${Region}:${Account}:${ResourceName}/${ResourceId}
-AWS Wickr                                                wickr                     arn:${Partition}:wickr:${Region}:${Account}:${ResourceType}/${ResourceId}
+AWS Wickr                                                wickr                     arn:aws:wickr:${Region}:${Account}:${ResourceType}/${ResourceId}
 AWS X-Ray                                                xray                      arn:aws:xray:${Region}:${Account}:${ResourceType}/${ResourceId}
 Database Query Metadata Service                          dbqms                     arn:${Partition}:dbqms::
 Elastic Load Balancing V2                                elasticloadbalancing      arn:aws:elasticloadbalancing:${Region}:${Account}:${ResourceType}/${ResourceId}
