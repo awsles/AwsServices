@@ -36,14 +36,16 @@ Amazon Connect Customer Profiles                         profile                
 Amazon Connect Voice ID                                  voiceid                   arn:aws:voiceid:${Region}:${Account}:${ResourceType}/${ResourceId}
 Amazon Connect Wisdom                                    wisdom                    arn:aws:wisdom:${Region}:${Account}:${Resource}/${ResourceId}
 Amazon Data Lifecycle Manager                            dlm                       arn:aws:dlm:${Region}:${Account}:policy/${ResourceName}
+Amazon DataZone                                          datazone                  arn:${Partition}:datazone:${Region}:${Account}:${ResourceType}/${ResourceName}
+Amazon DataZone Control                                  datazonecontrol           arn:aws:datazonecontrol:${Region}:${Account}:${ResourceType}/${ResourceName}
 Amazon Detective                                         detective                 arn:aws:detective:${Region}:${Account}:graph:${GraphId}
-Amazon DevOps Guru                                       devops-guru               arn:aws:devops-guru:${Region}:${Account}:
+Amazon DevOps Guru                                       devops-guru               arn:aws:devops-guru:${Region}:${Account}:${ResourceType}/${ResourceName}
 Amazon DocumentDB Elastic Clusters                       docdb-elastic             arn:aws:docdb-elastic:${Region}:${Account}:${ResourceType}/${ResourceId}
 Amazon DynamoDB                                          dynamodb                  arn:aws:dynamodb:${Region}:${Account}:${ResourceType}/${ResourcePath}
 Amazon DynamoDB Accelerator (DAX)                        dax                       arn:aws:dax:${Region}:${Account}:cache/${ClusterName}
 Amazon EC2                                               ec2                       arn:aws:ec2:${Region}:${Account}:${ResourceType}/${ResourcePath}
 Amazon EC2 Auto Scaling                                  autoscaling               arn:aws:autoscaling:${Region}:${Account}:${RelativeId}
-Amazon EC2 Image Builder                                 imagebuilder              arn:aws:imagebuilder:${Region}:${AccountId}:${ResourceType}/${ResourceName}
+Amazon EC2 Image Builder                                 imagebuilder              arn:aws:imagebuilder:${Region}:${Account}:${ResourceType}/${ResourceName}
 Amazon EC2 Instance Connect                              ec2-instance-connect      arn:aws:ec2:<region>:<account>:<resourceType>/<resourcePath>
 Amazon Elastic Block Store                               ebs                       arn:aws:ebs:${Region}:${Account}:${ResourceType}/${ResourcePath}
 Amazon Elastic Container Registry                        ecr                       arn:aws:ecr:${Region}:${Account}:repository/${RepositoryName}
@@ -116,7 +118,7 @@ Amazon Pinpoint                                          mobiletargeting        
 Amazon Pinpoint Email Service                            ses                       arn:aws:ses:${Region}:${Account}:${ResourceType}/${ResourceId}
 Amazon Pinpoint SMS and Voice Service                    sms-voice                 arn:aws:sms-voice:<region>:<account-id>:<resource-type>/<resource_name>
 Amazon Pinpoint SMS Voice V2                             sms-voice                 arn:aws:sms-voice:${Region}:${Account}:${ResourceType}/${ResourceId}
-Amazon Polly                                             polly                     arn:aws:polly:<region>:<accountID>:lexicon/<relative-id>
+Amazon Polly                                             polly                     arn:aws:polly:${Region}:${Account}:lexicon/${RelativeId}
 Amazon QLDB                                              qldb                      arn:aws:qldb:${Region}:${Account}:${ResourceType}/${ResourcePath}
 Amazon QuickSight                                        quicksight                arn:aws:quicksight:${Region}:${Account}:${ResourceType}/${ResourceId}
 Amazon RDS                                               rds                       arn:aws:rds:${Region}:${Account}:${RelativeId}
@@ -150,7 +152,6 @@ Amazon Simple Workflow Service                           swf                    
 Amazon SimpleDB                                          sdb                       arn:aws:sdb:${Region}:${Account}:domain/${DomainName}
 Amazon SNS                                               sns                       arn:aws:sns:${Region}:${Account}:${TopicName}
 Amazon SQS                                               sqs                       arn:aws:sqs:${Region}:${Account}:${QueueName}
-Amazon Sumerian                                          sumerian                  arn:aws:sumerian:${Region}:${Account}:${ResourceType}/${ResourcePath}
 Amazon Textract                                          textract                  arn:${Partition}:textract:${Region}:${Account}:${RelativeId}
 Amazon Timestream                                        timestream                arn:aws:timestream:${Region}:${Account}:database/${DatabaseName}/table/${TableName}
 Amazon Transcribe                                        transcribe                arn:aws:transcribe:${Region}:${Account}:${ResourceType}/${ResourceName}
@@ -177,7 +178,7 @@ AWS App Mesh Preview                                     appmesh-preview        
 AWS App Runner                                           apprunner                 arn:aws:apprunner:${Region}:${Account}:${ResourceType}/${PathToResource}
 AWS App2Container                                        a2c                       arn:${Partition}:a2c:${Region}:${Account}:${ResourceType}/${ResourceName}
 AWS AppConfig                                            appconfig                 arn:aws:appconfig:${Region}:${Account}:${RelativeId}
-AWS Application Auto Scaling                             application-autoscaling   
+AWS Application Auto Scaling                             application-autoscaling   arn:aws:application-autoscaling:${Region}:${Account}:${RelativeId}
 AWS Application Cost Profiler Service                    application-cost-profiler 
 AWS Application Discovery Service                        discovery                 
 AWS Application Migration Service                        mgn                       arn:aws:mgn:${Region}:${Account}:${ResourceType}/${ResourceName}
@@ -268,7 +269,6 @@ AWS IoT                                                  iot                    
 AWS IoT 1-Click                                          iot1click                 arn:aws:iot1click:${Region}:${Account}:${Type}/${Name}
 AWS IoT Analytics                                        iotanalytics              arn:aws:iotanalytics:${Region}:${Account}:${ResourceType}/${ResourceName}
 AWS IoT Core Device Advisor                              iotdeviceadvisor          arn:aws:iotdeviceadvisor:${Region}:${Account}:${ResourceType}/${ResourceName}
-AWS IoT Core for LoRaWAN                                 iotwireless               arn:aws:iotwireless:${Region}:${Account}:${ResourceType}/${ResourceId}
 AWS IoT Device Tester                                    iot-device-tester         arn:${Partition}:iot-device-tester:${Region}:${Account}:${ResourceType}/${ResourceName}
 AWS IoT Events                                           iotevents                 arn:aws:iotevents:${Region}:${Account}:${ResourceType}/${ResourceName}
 AWS IoT Fleet Hub for Device Management                  iotfleethub               arn:aws:iotfleethub:${Region}:${AccountId}:${ResourceType}/${ResourceName}
@@ -279,6 +279,7 @@ AWS IoT Jobs DataPlane                                   iotjobsdata            
 AWS IoT RoboRunner                                       iotroborunner             arn:aws:iotroborunner:${Region}:${Account}:${ResourceType}/${ResourcePath}
 AWS IoT SiteWise                                         iotsitewise               arn:aws:iotsitewise:${Region}:${Account}:${ResourceType}/${ResourceId}
 AWS IoT TwinMaker                                        iottwinmaker              arn:aws:iottwinmaker:${Region}:${Account}:${ResourceType}/${ResourceTypeId}
+AWS IoT Wireless                                         iotwireless               arn:aws:iotwireless:${Region}:${Account}:${ResourceType}/${ResourceId}
 AWS IQ                                                   iq                        arn:aws:iq:${Region}:${Account}:${ResourceType}/${ResourceName}
 AWS IQ Permissions                                       iq-permission             arn:aws:iq-permission:${Region}:${Account}:${ResourceType}/${ResourceName}
 AWS Key Management Service                               kms                       arn:aws:kms:${Region}:${Account}:${ResourceType}/${Id}
