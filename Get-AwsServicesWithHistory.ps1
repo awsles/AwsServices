@@ -24,14 +24,18 @@
 	If specified, then the OutputFile is updated.
 	
 .EXAMPLE	
-	TO SEE A QUICK VIEW:
+	TO GENERATE A CSV:
 		.\Get-AwsServicesWithHistory.ps1  # -Update
 	
+	TO CONVERT the above AwsServiceActions.CSV TO FORMATTED TEXT:
+		"{0,-56} {1,-80} {2,-23} {3}" -f 'ServiceName','Action','AccessLevel','Description' | out-file -FilePath 'AwsServiceActions.txt' -Encoding utf8 -force -width 210 ;
+		Import-Csv -Path 'AwsServiceActions.csv' | foreach { ("{0,-56} {1,-80} {2,-23} {3}" -f $_.ServiceName, $_.Action, $_.AccessLevel, $_.Description) } | out-file -FilePath 'AwsServiceActions.txt' -width 210 -Encoding utf8 -Append
+
 
 .NOTES
 	Author: Lester W.
-	Version: v0.06a
-	Date: 05-Dec-22
+	Version: v0.06b
+	Date: 08-Apr-23
 	Repository: https://github.com/leswaters/AwsServices
 	License: MIT License
 	
