@@ -23,7 +23,7 @@ Amazon CodeCatalyst                                      codecatalyst           
 Amazon CodeGuru                                          codeguru                  arn:${Partition}:codeguru:${Region}:${Account}:${ResourceType}/${ResourceName}
 Amazon CodeGuru Profiler                                 codeguru-profiler         arn:aws:codeguru-profiler:${Region}:${Account}:${ResourceType}/${ResourceName}
 Amazon CodeGuru Reviewer                                 codeguru-reviewer         arn:aws:codeguru-reviewer:${Region}:${Account}:${ResourceType}:${ResourceName}
-Amazon CodeGuru Security                                 codeguru-security         arn:${Partition}:codeguru-security:${Region}:${Account}:*
+Amazon CodeGuru Security                                 codeguru-security         arn:aws:codeguru-security:${Region}:${Account}:*
 Amazon CodeWhisperer                                     codewhisperer             arn:aws:codewhisperer:${Region}:${Account}:${ResourceType}/${ResourceId}
 Amazon Cognito Identity                                  cognito-identity          arn:aws:cognito-identity:${Region}:${Account}:${ResourceType}/${ResourcePath}
 Amazon Cognito Sync                                      cognito-sync              arn:aws:cognito-sync:${Region}:${Account}:${ResourceType}/${ResourcePath}:
@@ -46,7 +46,7 @@ Amazon DynamoDB Accelerator (DAX)                        dax                    
 Amazon EC2                                               ec2                       arn:aws:ec2:${Region}:${Account}:${ResourceType}/${ResourcePath}
 Amazon EC2 Auto Scaling                                  autoscaling               arn:aws:autoscaling:${Region}:${Account}:${RelativeId}
 Amazon EC2 Image Builder                                 imagebuilder              arn:aws:imagebuilder:${Region}:${Account}:${ResourceType}/${ResourceName}
-Amazon EC2 Instance Connect                              ec2-instance-connect      arn:aws:ec2:<region>:<account>:<resourceType>/<resourcePath>
+Amazon EC2 Instance Connect                              ec2-instance-connect      arn:aws:ec2:${Region}:${Account}:${ResourceType}/${ResourcePath}
 Amazon Elastic Block Store                               ebs                       arn:aws:ebs:${Region}:${Account}:${ResourceType}/${ResourcePath}
 Amazon Elastic Container Registry                        ecr                       arn:aws:ecr:${Region}:${Account}:repository/${RepositoryName}
 Amazon Elastic Container Registry Public                 ecr-public                arn:aws:ecr-public::${Account}:${RepositoryOrRegistry}/${RepositoryNameOrAccountId}
@@ -82,9 +82,9 @@ Amazon Interactive Video Service Chat                    ivschat                
 Amazon Kendra                                            kendra                    arn:aws:kendra:${Region}:${Account}:${ResourceType}/${ResourceName}
 Amazon Kendra Intelligent Ranking                        kendra-ranking            arn:aws:kendra-ranking:${Region}:${Account}:${ResourceType}/${ResourceName}
 Amazon Keyspaces (for Apache Cassandra)                  cassandra                 arn:aws:cassandra:${Region}:${Account}:/${ResourceType}/${ResourcePath}/
-Amazon Kinesis                                           kinesis                   arn:aws:kinesis:${Region}:${Account}:${ResourceType}/${ResourceName}
 Amazon Kinesis Analytics                                 kinesisanalytics          arn:aws:kinesisanalytics:${Region}:${Account}:application/${ApplicationName}
 Amazon Kinesis Analytics V2                              kinesisanalytics          arn:aws:kinesisanalytics:${Region}:${Account}:application/${ApplicationName}
+Amazon Kinesis Data Streams                              kinesis                   arn:aws:kinesis:${Region}:${Account}:${ResourceType}/${ResourceName}
 Amazon Kinesis Firehose                                  firehose                  arn:aws:firehose:{Region}:{Account}:deliverystream/${DeliveryStreamName}
 Amazon Kinesis Video Streams                             kinesisvideo              arn:aws:kinesisvideo:${Region}:${Account}:${ResourceType}/${ResourceName}/${CreationTime}
 Amazon Lex                                               lex                       arn:aws:lex:${Region}:${Account}:${Type}:${Name}
@@ -111,6 +111,7 @@ Amazon MQ                                                mq                     
 Amazon Neptune                                           neptune-db                arn:aws:neptune-db:${Region}:${Account}:${Id}/*
 Amazon Nimble Studio                                     nimble                    arn:aws:nimble:${Region}:${Account}:${ResourceType}/${ResourcePath}
 Amazon Omics                                             omics                     arn:aws:omics:${Region}:${Account}:${ResourceType}/${ResourcePath}
+Amazon OpenSearch Ingestion                              osis                      arn:aws:osis:${Region}:${Account}:${ResourceType}/${ResourceName}
 Amazon OpenSearch Serverless                             aoss                      arn:aws:aoss:${Region}:${Account}:${Resource}
 Amazon OpenSearch Service                                es                        arn:aws:es:${Region}:${Account}:${Resource}
 Amazon Personalize                                       personalize               arn:aws:personalize:${Region}:${Account}:${Resourcename}/${ResourceId}
@@ -219,10 +220,12 @@ AWS CodeStar Notifications                               codestar-notifications 
 AWS Compute Optimizer                                    compute-optimizer         
 AWS Config                                               config                    arn:aws:config:${Region}:${Account}:${ResourceType}/${ResourceId}
 AWS Connector Service                                    awsconnector              arn:aws:<serviceName>:<region>:<account-id>:<resource-type>/<resource_name>
+AWS Console Mobile App                                   consoleapp                arn:aws:consoleapp:${Region}:${Account}:${ResourceType}
 AWS Consolidated Billing                                 consolidatedbilling       arn:${Partition}:consolidatedbilling::${Account}:${ResourceType}/${ResourceId}
 AWS Control Tower                                        controltower              arn:${Partition}:controltower:${Region}:${Account}:${ResourceType}/${ResourceName}
 AWS Cost and Usage Report                                cur                       arn:aws:cur:${Region}:${Account}:definition/${ResourceName}
 AWS Cost Explorer Service                                ce                        arn:aws:ce::${Account}:${ResourceType}/${ResourceName}
+AWS Customer Verification Service                        customer-verification     
 AWS Data Exchange                                        dataexchange              arn:aws:dataexchange:${Region}:${Account}:${ResourceType}/${ResourceId}
 AWS Data Pipeline                                        datapipeline              arn:aws:datapipeline:${Region}:${Account}:${ResourceType}/${ResourcePath}
 AWS Database Migration Service                           dms                       arn:aws:dms:${Region}:${Account}:${Resource}
@@ -238,7 +241,7 @@ AWS Elastic Disaster Recovery                            drs                    
 AWS Elastic Load Balancing                               elasticloadbalancing      arn:aws:elasticloadbalancing:${Region}:${Account}:${ResourceType}/${ResourceId}
 AWS Elemental Appliances and Software                    elemental-appliances-software arn:aws:elemental-appliances-software:${Region}:${Account}:${ResourceType}/${ResourceName}
 AWS Elemental Appliances and Software Activation Service elemental-activations     arn:aws:elemental-activations:${Region}:${Account}:${ResourceType}/${ResourceName}
-AWS Elemental MediaConnect                               mediaconnect              arn:aws:mediaconnect:${Region}:${Account}:<namespace>:<relative-id>:<relative-name>
+AWS Elemental MediaConnect                               mediaconnect              arn:aws:mediaconnect:${Region}:${Account}:${Namespace}:${RelativeId}:${RelativeName}
 AWS Elemental MediaConvert                               mediaconvert              arn:aws:mediaconvert:${Region}:${Account}:${ResourceType}/${ResourceId}
 AWS Elemental MediaLive                                  medialive                 arn:aws:medialive:${Region}:${Account}:${ResourceType}:${ResourceId}
 AWS Elemental MediaPackage                               mediapackage              arn:aws:mediapackage:${Region}:${Account}:${ResourceType}/${ResourceIdentifier}
@@ -323,7 +326,7 @@ AWS Proton                                               proton                 
 AWS Purchase Orders Console                              purchase-orders           arn:${Partition}:purchase-orders::${Account}:${ResourceType}:${ResourceName}
 AWS Recycle Bin                                          rbin                      arn:aws:rbin:${Region}:${Account}:rule/${ResourceName}
 AWS Resilience Hub Service                               resiliencehub             arn:aws:resiliencehub:${Region}:${Account}:${ResourceType}/${ResourceId}
-AWS Resource Access Manager                              ram                       arn:aws:ram:${Region}:${AccountId}:resource-share/${ResourceUUID}
+AWS Resource Access Manager (RAM)                        ram                       arn:aws:ram:${Region}:${Account}:resource-share/${ResourceUUID}
 AWS Resource Explorer                                    resource-explorer-2       arn:aws:resource-explorer-2:${Region}:${Account}:${ResourceType}/${ResourceIdentifier}
 AWS Resource Groups                                      resource-groups           arn:aws:resource-groups:${Region}:${Account}:${ResourceType}/${ResourceName}
 AWS RoboMaker                                            robomaker                 arn:aws:robomaker:${Region}:${AccountId}:${ResourceType}/${ResourceName}
@@ -359,6 +362,8 @@ AWS Telco Network Builder                                tnb                    
 AWS Tiros                                                tiros                     arn:${Partition}:tiros:${Region}:${Account}:${RelativeId}
 AWS Transfer Family                                      transfer                  arn:aws:transfer:${Region}:${Account}:${ResourceType}/${ResourceName}
 AWS Trusted Advisor                                      trustedadvisor            arn:aws:trustedadvisor:${Region}:${Account}:checks/${Category}/${CheckId}
+AWS User Notifications                                   notifications             arn:aws:notifications::${Account}:${ResourceType}/${ResourceId}
+AWS User Notifications Contacts                          notifications-contacts    arn:aws:notifications-contacts::${Account}:${ResourceType}/${ResourceId}
 AWS WAF                                                  waf                       arn:aws:waf::${Account}:${ResourceId}/${Id}
 AWS WAF Regional                                         waf-regional              arn:aws:waf-regional:${Region}:${Account}:${ResourceId}/${Id}
 AWS WAF V2                                               wafv2                     arn:aws:wafv2:${Region}:${Account}:${Scope}/${ResourceType}/${ResourceName}/${ResourceId}
