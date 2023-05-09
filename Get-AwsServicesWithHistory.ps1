@@ -25,7 +25,7 @@
 	
 .EXAMPLE	
 	TO GENERATE A CSV:
-		.\Get-AwsServicesWithHistory.ps1  # -Update
+		.\Get-AwsServicesWithHistory.ps1 -Update
 	
 	TO CONVERT the above AwsServiceActions.CSV TO FORMATTED TEXT:
 		"{0,-56} {1,-80} {2,-23} {3}" -f 'ServiceName','Action','AccessLevel','Description' | out-file -FilePath 'AwsServiceActions.txt' -Encoding utf8 -force -width 210 ;
@@ -34,8 +34,8 @@
 
 .NOTES
 	Author: Lester W.
-	Version: v0.06b
-	Date: 08-Apr-23
+	Version: v0.07
+	Date: 09-May-23
 	Repository: https://github.com/leswaters/AwsServices
 	License: MIT License
 	
@@ -86,7 +86,11 @@ $Today = (Get-Date).ToString("dd-MMM-yyyy")
 $Activity	= "Extracting AWS policy actions..."
 
 # Read in existing Inputfile, sorted by Action, dropping any notes
+# "ServiceName","Action","Description","AccessLevel","DocLink"
 $PreviousData = Import-Csv -Path $InputFile | Where-Object {$_.Action.Length -gt 0} | Sort-Object -Property Action
+
+# Determine Previous Services
+$PreviousServices = $PreviousData.ServiceName | Select-Object -Unique | Sort-Object
 
 # Get new data, sorted by Action, dropping any notes
 $CurrentData = .\Get-AwsServices.ps1 -WarningVariable $Warnings | Where-Object {$_.Action.Length -gt 0} | Sort-Object -Property Action 
@@ -95,33 +99,44 @@ if ($Warnings)
 	write-warning $Warnings
 }
 
+# Determine Current Services
+$CurrentServices = $CurrentData.ServiceName | Select-Object -Unique | Sort-Object
+
+# Compare old & new services
+$NewServices = (Compare-Object -ReferenceObject $CurrentServices -DifferenceObject $PreviousServices | Where-Object {$_.SideIndicator -eq '<='}).InputObject
+$DeprecatedServices = (Compare-Object -ReferenceObject $CurrentServices -DifferenceObject $PreviousServices | Where-Object {$_.SideIndicator -eq '=>'}).InputObject
+$ServiceNameChanges = "There are $($NewServices.Count) new service names and $($DeprecatedServices.Count) deprecated service names.`n"
+if ($NewServices) { $ServiceNameChanges += "NEW :`n  $($NewServices -join ""`n  "")`n" }
+if ($DeprecatedServices) { $ServiceNameChanges += "DEPRECATED :`n  $($DeprecatedServices -join ""`n  "")`n" }
+Write-host $ServiceNameChanges
+
+
 # Loop through current list
-$i = 0  # Index into $PreviousData, which MUST be sorted!
-foreach ($entry in $CurrentData)
-{
-	# Skip anything that may be deprecated
-	while ($i -lt $PreviousData.Count -And $PreviousData[$i].Action -lt $entry.Action)
-	{ 
-		$PreviousData[$i] | Add-Member -NotePropertyName 'Status' -NotePropertyValue 'Deprecated' -Force
-		$Results += $PreviousData[$i]
-		$i++
-	} 
-
-	# If we have a match, then skip past it
-	# Otherwise, we have a new entry
-	if ($i -lt $PreviousData.Count -And $PreviousData[$i].Action -eq $entry.Action)
-	{ 
-		$i++
-	} 
-	else
-	{
-		$entry | Add-Member -NotePropertyName 'Status' -NotePropertyValue 'New' -Force
-		$Results += $entry
-	}
-}
-
-# Extract ServiceNames
-$ServiceNames = $CurrentData | Select-Object -Property ServiceName -Unique | Sort-Object
+$Results = Compare-Object -ReferenceObject $CurrentData -DifferenceObject $PreviousData -Property Action -PassThru | Sort-Object -Property Action
+### OLD METHOD:
+#$i = 0  # Index into $PreviousData, which MUST be sorted!
+#foreach ($entry in $CurrentData)
+#{
+#	# Skip anything that may be deprecated
+#	while ($i -lt $PreviousData.Count -And $PreviousData[$i].Action -lt $entry.Action)
+#	{ 
+#		$PreviousData[$i] | Add-Member -NotePropertyName 'Status' -NotePropertyValue 'Deprecated' -Force
+#		$Results += $PreviousData[$i]
+#		$i++
+#	} 
+#
+#	# If we have a match, then skip past it
+#	# Otherwise, we have a new entry
+#	if ($i -lt $PreviousData.Count -And $PreviousData[$i].Action -eq $entry.Action)
+#	{ 
+#		$i++
+#	} 
+#	else
+#	{
+#		$entry | Add-Member -NotePropertyName 'Status' -NotePropertyValue 'New' -Force
+#		$Results += $entry
+#	}
+#}
 
 # If HistoryFile does not exist, then we will create it with a new header
 if ((Test-Path -Path $HistoryFile) -eq $false)
@@ -134,15 +149,15 @@ if ((Test-Path -Path $HistoryFile) -eq $false)
 # At this point, $Results has all of the differences...
 # Update the history file
 if ($HistoryFile)
-{
-	$Deprecated	= @($Results | Where-Object {$_.Status -eq 'Deprecated'})
-	$NewActions	= @($Results | Where-Object {$_.Status -eq 'New'})
+{	
+	$DeprecatedActions	= @($Results | Where-Object {$_.SideIndicator -eq '=>'})
+	$NewActions	= @($Results | Where-Object {$_.SideIndicator -eq '<='})
 
 	# Add a divider
 	'=' * 100 | out-file -FilePath $HistoryFile -Encoding UTF8 -Append -width 250
 	
 	# Add the timestamp and summary
-	"$Today : There are $($CurrentData.Actions.Count) actions across $($ServiceNames.Count) AWS services.`n              $($Results.Count) changes have been detected: $($NewActions.Count) new; $($Deprecated.Count) deprecated." `
+	"$Today : There are $($CurrentData.Actions.Count) actions across $($CurrentServices.Count) AWS services.`n              $($Results.Count) changes have been detected: $($NewActions.Count) new; $($DeprecatedActions.Count) deprecated." `
 		| out-file -FilePath $HistoryFile -Encoding UTF8 -Append 
 		
 	if ($Warnings)
@@ -150,14 +165,19 @@ if ($HistoryFile)
 		"`n$Warnings" | out-file -FilePath $HistoryFile -Encoding UTF8 -Append -width 250
 	}
 	
-	if ($Deprecated)
+	# Output the service name changes
+	$ServiceNameChanges | out-file -FilePath $HistoryFile -Encoding UTF8 -Append 
+	
+	# Output the deprecated actions
+	if ($DeprecatedActions)
 	{
 		"`nDEPRECATED:" | out-file -FilePath $HistoryFile -Encoding UTF8 -Append
 		"  {0,-56} {1,-80} {2,-23} {3}" -f 'ServiceName','Action','AccessLevel','Description' | out-file -FilePath $HistoryFile -Encoding UTF8 -Append -width 250
 		"  {0,-56} {1,-80} {2,-23} {3}" -f '-----------','------','-----------','-----------' | out-file -FilePath $HistoryFile -Encoding UTF8 -Append -width 250
-		$Deprecated | foreach { ("  {0,-56} {1,-80} {2,-23} {3}" -f $_.ServiceName, $_.Action, $_.AccessLevel, $_.Description) | out-file -FilePath $HistoryFile -Encoding UTF8 -Append -width 250}
+		$DeprecatedActions | foreach { ("  {0,-56} {1,-80} {2,-23} {3}" -f $_.ServiceName, $_.Action, $_.AccessLevel, $_.Description) | out-file -FilePath $HistoryFile -Encoding UTF8 -Append -width 250}
 	}
 	
+	# Output the new actions	
 	if ($NewActions)
 	{
 		"`nNEW ACTIONS:" | out-file -FilePath $HistoryFile -Encoding UTF8 -Append
