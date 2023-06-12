@@ -145,7 +145,7 @@ Amazon S3 on Outposts                                    s3-outposts            
 Amazon SageMaker                                         sagemaker                 arn:aws:sagemaker:${Region}:${Account}:${ResourceType}/${ResourceName}
 Amazon SageMaker geospatial capabilities                 sagemaker-geospatial      arn:aws:sagemaker-geospatial:${Region}:${Account}:${ResourceType}/${ResourceName}
 Amazon SageMaker Ground Truth Synthetic                  sagemaker-groundtruth-synthetic arn:${Partition}:sagemaker-groundtruth-synthetic:${Region}:${Account}:${ResourceType}/${ResourceId}
-Amazon Security Lake                                     securitylake              
+Amazon Security Lake                                     securitylake              arn:aws:securitylake:${Region}:${Account}:${ResourceType}/${ResourcePath}
 Amazon SES                                               ses                       arn:aws:ses:${Region}:${Account}:${ResourceType}/${ResourceId}
 Amazon Session Manager Message Gateway Service           ssmmessages               
 Amazon Simple Email Service v2                           ses                       arn:aws:ses:${Region}:${Account}:${ResourceType}/${ResourceId}
@@ -239,12 +239,14 @@ AWS Directory Service                                    ds                     
 AWS Elastic Beanstalk                                    elasticbeanstalk          arn:aws:elasticbeanstalk:${Region}:${AccountID}:${ResourceType}/${PathToResource}
 AWS Elastic Disaster Recovery                            drs                       arn:aws:drs:${Region}:${Account}:${ResourceType}/${ResourceName}
 AWS Elastic Load Balancing                               elasticloadbalancing      arn:aws:elasticloadbalancing:${Region}:${Account}:${ResourceType}/${ResourceId}
+AWS Elastic Load Balancing V2                            elasticloadbalancing      arn:aws:elasticloadbalancing:${Region}:${Account}:${ResourceType}/${ResourceId}
 AWS Elemental Appliances and Software                    elemental-appliances-software arn:aws:elemental-appliances-software:${Region}:${Account}:${ResourceType}/${ResourceName}
 AWS Elemental Appliances and Software Activation Service elemental-activations     arn:aws:elemental-activations:${Region}:${Account}:${ResourceType}/${ResourceName}
 AWS Elemental MediaConnect                               mediaconnect              arn:aws:mediaconnect:${Region}:${Account}:${Namespace}:${RelativeId}:${RelativeName}
 AWS Elemental MediaConvert                               mediaconvert              arn:aws:mediaconvert:${Region}:${Account}:${ResourceType}/${ResourceId}
 AWS Elemental MediaLive                                  medialive                 arn:aws:medialive:${Region}:${Account}:${ResourceType}:${ResourceId}
 AWS Elemental MediaPackage                               mediapackage              arn:aws:mediapackage:${Region}:${Account}:${ResourceType}/${ResourceIdentifier}
+AWS Elemental MediaPackage V2                            mediapackagev2            arn:aws:mediapackagev2:${Region}:${Account}:${ResourceType}/${ResourceIdentifier}
 AWS Elemental MediaPackage VOD                           mediapackage-vod          arn:aws:mediapackage-vod:${Region}:${Account}:${ResourceType}/${ResourceIdentifier}
 AWS Elemental MediaStore                                 mediastore                arn:aws:mediastore:${Region}:${Account}:${Resource}
 AWS Elemental MediaTailor                                mediatailor               arn:aws:mediatailor:${Region}:${Account}:${ResourceType}/${ResourceName}
@@ -263,7 +265,7 @@ AWS IAM Identity Center (successor to AWS Single Sign-On) sso                   
 AWS IAM Identity Center (successor to AWS Single Sign-On) directory sso-directory             arn:${Partition}:sso-directory:${Region}:${Account}:${RelativeId}
 AWS Identity and Access Management                       iam                       arn:aws:iam::${Account}:${ResourceType}/${ResourceName}
 AWS Identity and Access Management Roles Anywhere        rolesanywhere             arn:aws:rolesanywhere:${Region}:${Account}:${ResourceType}/${ResourceId}
-AWS Identity Store                                       identitystore             arn:aws:identitystore::${AwsAccountId}:${ResourceType}/${ResourceId}
+AWS Identity Store                                       identitystore             arn:aws:identitystore::${Account}:${ResourceType}/${ResourceId}
 AWS Identity Store Auth                                  identitystore-auth        arn:${Partition}:identitystore-auth:${Region}:${Account}:${RelativeId}
 AWS Identity Sync                                        identity-sync             arn:aws:identity-sync:${Region}:${Account}:${ResourceType}/${ResourcePath}
 AWS Import Export Disk Service                           importexport              
@@ -299,11 +301,11 @@ AWS Marketplace Commerce Analytics Service               marketplacecommerceanal
 AWS Marketplace Discovery                                aws-marketplace           
 AWS Marketplace Entitlement Service                      aws-marketplace           
 AWS Marketplace Image Building Service                   aws-marketplace           
-AWS Marketplace Management Portal                        aws-marketplace-management 
+AWS Marketplace Management Portal                        aws-marketplace-management arn:${Partition}:Marketplace:${Region}:${Account}:${Resource}
 AWS Marketplace Metering Service                         aws-marketplace           
 AWS Marketplace Private Marketplace                      aws-marketplace           
 AWS Marketplace Procurement Systems Integration          aws-marketplace           
-AWS Marketplace Seller Reporting                         aws-marketplace           arn:aws:aws-marketplace::${Account}:${Catalog}/${ResourceType}/${ResourceId}
+AWS Marketplace Seller Reporting                         aws-marketplace           arn:aws:aws-marketplace::${Account}:${Catalog}/${ResourceType}/${ResourcePath}
 AWS Marketplace Vendor Insights                          vendor-insights           arn:aws:vendor-insights:::${ResourceType}:${ResourceId}
 AWS Microservice Extractor for .NET                      serviceextract            arn:${Partition}:serviceextract:${Region}:${Account}:${ResourceType}/${ResourceName}
 AWS Migration Hub                                        mgh                       arn:aws:mgh:<region>:<namespace>:<relative-id>
@@ -364,6 +366,7 @@ AWS Transfer Family                                      transfer               
 AWS Trusted Advisor                                      trustedadvisor            arn:aws:trustedadvisor:${Region}:${Account}:checks/${Category}/${CheckId}
 AWS User Notifications                                   notifications             arn:aws:notifications::${Account}:${ResourceType}/${ResourceId}
 AWS User Notifications Contacts                          notifications-contacts    arn:aws:notifications-contacts::${Account}:${ResourceType}/${ResourceId}
+AWS Verified Access                                      verified-access           
 AWS WAF                                                  waf                       arn:aws:waf::${Account}:${ResourceId}/${Id}
 AWS WAF Regional                                         waf-regional              arn:aws:waf-regional:${Region}:${Account}:${ResourceId}/${Id}
 AWS WAF V2                                               wafv2                     arn:aws:wafv2:${Region}:${Account}:${Scope}/${ResourceType}/${ResourceName}/${ResourceId}
@@ -371,6 +374,5 @@ AWS Well-Architected Tool                                wellarchitected        
 AWS Wickr                                                wickr                     arn:aws:wickr:${Region}:${Account}:${ResourceType}/${ResourceId}
 AWS X-Ray                                                xray                      arn:aws:xray:${Region}:${Account}:${ResourceType}/${ResourceId}
 Database Query Metadata Service                          dbqms                     arn:${Partition}:dbqms::
-Elastic Load Balancing V2                                elasticloadbalancing      arn:aws:elasticloadbalancing:${Region}:${Account}:${ResourceType}/${ResourceId}
 High-volume outbound communications                      connect-campaigns         arn:aws:connect-campaigns:${Region}:${Account}:campaign/${CampaignId}
 Service Quotas                                           servicequotas             arn:aws:servicequotas:${Region}:${Account}:${ResourceType}/${ResourceName}
