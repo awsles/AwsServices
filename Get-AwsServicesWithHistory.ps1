@@ -24,18 +24,31 @@
 	If specified, then the OutputFile is updated.
 	
 .EXAMPLE	
-	TO GENERATE A CSV:
-		.\Get-AwsServicesWithHistory.ps1 -Update
-	
+	TO GENERATE A CSV (only):
+		CD C:\GIT\awsles\AwsServices
+		.\Get-AwsServicesWithHistory.ps1 -Update	
+
 	TO CONVERT the above AwsServiceActions.CSV TO FORMATTED TEXT:
 		"{0,-56} {1,-80} {2,-23} {3}" -f 'ServiceName','Action','AccessLevel','Description' | out-file -FilePath 'AwsServiceActions.txt' -Encoding utf8 -force -width 210 ;
 		Import-Csv -Path 'AwsServiceActions.csv' | foreach { ("{0,-56} {1,-80} {2,-23} {3}" -f $_.ServiceName, $_.Action, $_.AccessLevel, $_.Description) } | out-file -FilePath 'AwsServiceActions.txt' -width 210 -Encoding utf8 -Append
 
+	TO DO *ALL* STEPS:
+		CD C:\GIT\awsles\AwsServices
+		.\Get-AwsServicesWithHistory.ps1	# **** SEE Line 170 and run thise in non-update to check results
+		.\Get-AwsServicesWithHistory.ps1 -Update	
+		.\Get-AwsServices.ps1 -ServicesOnly | Export-Csv -Path 'AwsServices.csv' -Encoding utf8 -force
+		copy-item -Path "AwsServices.csv" -Destination ".\history\AwsServices ($(get-date -Format 'dd-MMM-yy')).csv" 
+		copy-item -Path "AwsServiceActions.csv" -Destination ".\history\AwsServiceActions ($(get-date -Format 'dd-MMM-yy')).csv" 
+		"{0,-56} {1,-80} {2,-23} {3}" -f 'ServiceName','Action','AccessLevel','Description' | out-file -FilePath 'AwsServiceActions.txt' -Encoding utf8 -force -width 210 ;
+		Import-Csv -Path 'AwsServiceActions.csv' | foreach { ("{0,-56} {1,-80} {2,-23} {3}" -f $_.ServiceName, $_.Action, $_.AccessLevel, $_.Description) } | out-file -FilePath 'AwsServiceActions.txt' -width 210 -Encoding utf8 -Append
+		"{0,-56} {1,-25} {2}" -f 'ServiceName','ServiceShortName','ARNFormat' | out-file -FilePath 'AwsServices.txt' -Encoding utf8 -force -width 210 ;
+		Import-Csv -Path 'AwsServices.csv' | foreach { ("{0,-56} {1,-25} {2}" -f $_.ServiceName, $_.ServiceShortName, $_.ARNFormat) } | out-file -FilePath 'AwsServices.txt' -width 210 -Encoding utf8 -Append
+
 
 .NOTES
 	Author: Lester W.
-	Version: v0.07
-	Date: 09-May-23
+	Version: v0.07a
+	Date: 09-Oct-23
 	Repository: https://github.com/leswaters/AwsServices
 	License: MIT License
 	
@@ -48,7 +61,8 @@
 	https://github.com/rvedotrc/aws-iam-reference	
 	https://awspolicygen.s3.amazonaws.com/policygen.html   (web tool containing JavaScript which we scrape)
 	https://www.leeholmes.com/blog/2015/01/05/extracting-tables-from-powershells-invoke-webrequest/
-
+	https://lazyadmin.nl/powershell/get-date/
+	
 #>
 
 
@@ -152,6 +166,14 @@ if ($HistoryFile)
 {	
 	$DeprecatedActions	= @($Results | Where-Object {$_.SideIndicator -eq '=>'})
 	$NewActions	= @($Results | Where-Object {$_.SideIndicator -eq '<='})
+	
+	# Make Sure NewActions does not have elements from DeprecatedActions
+	$z = ($NewActions | ?{$DeprecatedActions -contains $_})
+	if ($z)
+	{
+		write-warning "There are items which appear as new as well as deprecated! [BUG]`n"
+		write-host $Z
+	}
 
 	# Add a divider
 	'=' * 100 | out-file -FilePath $HistoryFile -Encoding UTF8 -Append -width 250

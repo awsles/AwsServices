@@ -39,8 +39,7 @@
 	TO GET A LIST OF SERVICES only AS A CSV:
 		.\Get-AwsServices.ps1 -ServicesOnly | Export-Csv -Path 'AwsServices.csv' -Encoding utf8 -force
 	
-	TO CONVERT the above AwsServices.CSV TO FORMATTED TEXT:
-	ServiceName                                                                                                                                         
+	TO CONVERT the above AwsServices.CSV TO FORMATTED TEXT:                                                                                                                                         
 		"{0,-56} {1,-25} {2}" -f 'ServiceName','ServiceShortName','ARNFormat' | out-file -FilePath 'AwsServices.txt' -Encoding utf8 -force -width 210 ;
 		Import-Csv -Path 'AwsServices.csv' | foreach { ("{0,-56} {1,-25} {2}" -f $_.ServiceName, $_.ServiceShortName, $_.ARNFormat) } | out-file -FilePath 'AwsServices.txt' -width 210 -Encoding utf8 -Append
 
@@ -49,8 +48,8 @@
 
 .NOTES
 	Author: Lester W.
-	Version: v0.20
-	Date: 26-Dec-21
+	Version: v0.21
+	Date: 09-Oct-23
 	Repository: https://github.com/leswaters/AwsServices
 	License: MIT License
 	
@@ -359,7 +358,7 @@ foreach ($service in $ServiceList)
 			{
 				# write-host -ForegroundColor Yellow $service
 				write-warning "$service - Search failed for '$SearchId' `n         PAGE: $DocPage"
-				$Entry.Description		= "--- NOT FOUND ---"
+				$Entry.Description		= "--- DOCPAGE NOT FOUND ---"
 				$Entry.AccessLevel		= ""
 				# write-output $_
 			}
