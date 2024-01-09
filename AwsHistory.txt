@@ -2939,7 +2939,7 @@ NEW ACTIONS:
 ====================================================================================================
 09-Jan-2024 : There are 16292 actions across 403 AWS services.
               1042 changes have been detected: 1003 new; 39 deprecated.
-There are 23 new service names and 4 deprecated service names.
+There are 23 new service names and 4 deprecated service names since 09-Oct-23.
 NEW :
   Amazon CloudFront KeyValueStore
   Amazon CloudWatch Network Monitor
