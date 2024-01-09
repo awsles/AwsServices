@@ -37,18 +37,21 @@
 		.\Get-AwsServicesWithHistory.ps1	# **** SEE Line 170 and run thise in non-update to check results
 		.\Get-AwsServicesWithHistory.ps1 -Update	
 		.\Get-AwsServices.ps1 -ServicesOnly | Export-Csv -Path 'AwsServices.csv' -Encoding utf8 -force
+		# Make a Copy of the outputs into History folder
 		copy-item -Path "AwsServices.csv" -Destination ".\history\AwsServices ($(get-date -Format 'dd-MMM-yy')).csv" 
 		copy-item -Path "AwsServiceActions.csv" -Destination ".\history\AwsServiceActions ($(get-date -Format 'dd-MMM-yy')).csv" 
+		# Create formatted text outputs
 		"{0,-56} {1,-80} {2,-23} {3}" -f 'ServiceName','Action','AccessLevel','Description' | out-file -FilePath 'AwsServiceActions.txt' -Encoding utf8 -force -width 210 ;
 		Import-Csv -Path 'AwsServiceActions.csv' | foreach { ("{0,-56} {1,-80} {2,-23} {3}" -f $_.ServiceName, $_.Action, $_.AccessLevel, $_.Description) } | out-file -FilePath 'AwsServiceActions.txt' -width 210 -Encoding utf8 -Append
 		"{0,-56} {1,-25} {2}" -f 'ServiceName','ServiceShortName','ARNFormat' | out-file -FilePath 'AwsServices.txt' -Encoding utf8 -force -width 210 ;
 		Import-Csv -Path 'AwsServices.csv' | foreach { ("{0,-56} {1,-25} {2}" -f $_.ServiceName, $_.ServiceShortName, $_.ARNFormat) } | out-file -FilePath 'AwsServices.txt' -width 210 -Encoding utf8 -Append
 
 
+
 .NOTES
 	Author: Lester W.
-	Version: v0.07a
-	Date: 09-Oct-23
+	Version: v0.07b
+	Date: 09-Jan-24
 	Repository: https://github.com/leswaters/AwsServices
 	License: MIT License
 	
