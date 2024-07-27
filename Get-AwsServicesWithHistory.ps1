@@ -34,7 +34,7 @@
 
 	TO DO *ALL* STEPS:
 		CD C:\GIT\awsles\AwsServices
-		.\Get-AwsServicesWithHistory.ps1	# **** SEE Line 170 and run thise in non-update to check results
+		.\Get-AwsServicesWithHistory.ps1	# **** SEE Line 170 and run this in non-update to check results
 		.\Get-AwsServicesWithHistory.ps1 -Update	
 		.\Get-AwsServices.ps1 -ServicesOnly | Export-Csv -Path 'AwsServices.csv' -Encoding utf8 -force
 		# Make a Copy of the outputs into History folder
