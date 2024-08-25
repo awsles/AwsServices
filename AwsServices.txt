@@ -16,6 +16,7 @@ Amazon CloudFront KeyValueStore                          cloudfront-keyvaluestor
 Amazon CloudSearch                                       cloudsearch               arn:aws:cloudsearch:${Region}:${Account}:${ResourceType}/${ResourceName}
 Amazon CloudWatch                                        cloudwatch                arn:aws:cloudwatch:${Region}:${Account}:${ResourceType}/${ResourcePath}
 Amazon CloudWatch Application Insights                   applicationinsights       
+Amazon CloudWatch Application Signals                    application-signals       arn:aws:application-signals:${Region}:${Account}:slo/{ServiceLevelObjectivesName}
 Amazon CloudWatch Evidently                              evidently                 arn:aws:evidently:${Region}:${Account}:${ResourceType}/${ResourceName}
 Amazon CloudWatch Internet Monitor                       internetmonitor           arn:aws:internetmonitor:${Region}:${Account}:${ResourceType}/${ResourcePath}
 Amazon CloudWatch Logs                                   logs                      arn:aws:logs:${Region}:${Account}:.+
@@ -72,7 +73,7 @@ Amazon Fraud Detector                                    frauddetector          
 Amazon FreeRTOS                                          freertos                  arn:aws:freertos:${Region}:${Account}:${Type}/${Name}
 Amazon FSx                                               fsx                       arn:aws:fsx:${Region}:${Account}:${ResourceType}/${ResourcePath}
 Amazon GameLift                                          gamelift                  arn:aws:gamelift:${Region}:${Account}:${ResourceType}/${ResourceId}
-Amazon GroundTruth Labeling                              groundtruthlabeling       arn:${Partition}:groundtruthlabeling:${region}:${account}:${resourceType}/${resourcePath}
+Amazon GroundTruth Labeling                              groundtruthlabeling       arn:${Partition}:groundtruthlabeling:${Region}:${Account}:${ResourceType}/${ResourcePath}
 Amazon GuardDuty                                         guardduty                 arn:aws:guardduty:${Region}:${Account}:.+
 Amazon Honeycode                                         honeycode                 arn:aws:honeycode:${Region}:${Account}:${ResourceType}:${ResourcePath}
 Amazon Inspector                                         inspector                 
@@ -107,6 +108,7 @@ Amazon Managed Workflows for Apache Airflow              airflow                
 Amazon Mechanical Turk                                   mechanicalturk            
 Amazon MemoryDB                                          memorydb                  arn:aws:memorydb:${Region}:${Account}:${ResourceType}/${ResourceName}
 Amazon Message Delivery Service                          ec2messages               
+Amazon Message Gateway Service                           ssmmessages               
 Amazon Mobile Analytics                                  mobileanalytics           
 Amazon Monitron                                          monitron                  arn:aws:monitron:${Region}:${Account}:${ResourceType}/${ResourceId}
 Amazon MQ                                                mq                        arn:aws:mq:${Region}:${Account}:.+
@@ -125,6 +127,7 @@ Amazon Pinpoint SMS Voice V2                             sms-voice              
 Amazon Polly                                             polly                     arn:aws:polly:${Region}:${Account}:lexicon/${RelativeId}
 Amazon Q                                                 q                         
 Amazon Q Business                                        qbusiness                 arn:aws:qbusiness:${Region}:${Account}:${ResourceType}/${ResourceName}
+Amazon Q Business Q Apps                                 qapps                     arn:aws:qapps:${Region}:${Account}:${ResourceType}:${ResourcePath}
 Amazon Q in Connect                                      wisdom                    arn:aws:wisdom:${Region}:${Account}:${Resource}/${ResourceId}
 Amazon QLDB                                              qldb                      arn:aws:qldb:${Region}:${Account}:${ResourceType}/${ResourcePath}
 Amazon QuickSight                                        quicksight                arn:aws:quicksight:${Region}:${Account}:${ResourceType}/${ResourceId}
@@ -140,6 +143,7 @@ Amazon RHEL Knowledgebase Portal                         rhelkb                 
 Amazon Route 53                                          route53                   arn:aws:route53:::${Resource}/{$Id}
 Amazon Route 53 Application Recovery Controller - Zonal Shift arc-zonal-shift           arn:aws:arc-zonal-shift:${Region}:${Account}:${ResourceType}/${ResourceName}
 Amazon Route 53 Domains                                  route53domains            
+Amazon Route 53 Profiles enables sharing DNS settings with VPCs route53profiles           arn:aws:route53profiles:${Region}:${Account}:${ResourceType}/${ResourceId}
 Amazon Route 53 Recovery Cluster                         route53-recovery-cluster  arn:aws:route53-recovery-control::${Account}:${ResourceType}/${ResourceName}
 Amazon Route 53 Recovery Controls                        route53-recovery-control-config arn:aws:route53-recovery-control::${Account}:${ResourceType}/${ResourceName}
 Amazon Route 53 Recovery Readiness                       route53-recovery-readiness arn:aws:route53-recovery-readiness::${Account}:${ResourceType}/${ResourceName}
@@ -152,9 +156,10 @@ Amazon S3 on Outposts                                    s3-outposts            
 Amazon SageMaker                                         sagemaker                 arn:aws:sagemaker:${Region}:${Account}:${ResourceType}/${ResourceName}
 Amazon SageMaker geospatial capabilities                 sagemaker-geospatial      arn:aws:sagemaker-geospatial:${Region}:${Account}:${ResourceType}/${ResourceName}
 Amazon SageMaker Ground Truth Synthetic                  sagemaker-groundtruth-synthetic arn:${Partition}:sagemaker-groundtruth-synthetic:${Region}:${Account}:${ResourceType}/${ResourceId}
+Amazon SageMaker with MLflow                             sagemaker-mlflow          arn:aws:sagemaker:${Region}:${Account}:${ResourceType}/${ResourceName}
 Amazon Security Lake                                     securitylake              arn:aws:securitylake:${Region}:${Account}:${ResourceType}/${ResourcePath}
 Amazon SES                                               ses                       arn:aws:ses:${Region}:${Account}:${ResourceType}/${ResourceId}
-Amazon Session Manager Message Gateway Service           ssmmessages               
+Amazon Simple Email Service - Mail Manager               ses                       arn:aws:ses:${Region}:${Account}:${ResourceType}/${ResourceId}
 Amazon Simple Email Service v2                           ses                       arn:aws:ses:${Region}:${Account}:${ResourceType}/${ResourceId}
 Amazon Simple Workflow Service                           swf                       arn:aws:swf:${Region}:${Account}:/domain/${DomainName}
 Amazon SimpleDB                                          sdb                       arn:aws:sdb:${Region}:${Account}:domain/${DomainName}
@@ -162,30 +167,32 @@ Amazon SNS                                               sns                    
 Amazon SQS                                               sqs                       arn:aws:sqs:${Region}:${Account}:${QueueName}
 Amazon Textract                                          textract                  arn:aws:textract:${Region}:${Account}:${RelativeId}
 Amazon Timestream                                        timestream                arn:aws:timestream:${Region}:${Account}:database/${DatabaseName}/table/${TableName}
+Amazon Timestream InfluxDB                               timestream-influxdb       arn:aws:timestream-influxdb:${Region}:${Account}:${ResourceType}
 Amazon Transcribe                                        transcribe                arn:aws:transcribe:${Region}:${Account}:${ResourceType}/${ResourceName}
 Amazon Translate                                         translate                 arn:aws:translate:${Region}:${Account}:${ResourceType}/${ResourceName}
 Amazon Verified Permissions                              verifiedpermissions       arn:aws:verifiedpermissions:${Region}:${Account}:${ResourceType}/${ResourceId}
 Amazon VPC Lattice                                       vpc-lattice               arn:aws:vpc-lattice:${Region}:${Account}:${ResourceType}/${RelativeId}
 Amazon VPC Lattice Services                              vpc-lattice-svcs          arn:aws:vpc-lattice:${Region}:${Account}:${ResourceType}/${RelativeId}
-Amazon WorkDocs                                          workdocs                  
+Amazon WorkDocs                                          workdocs                  arn:aws:workdocs:${Region}:${Account}:${ResourceType}/${ResourceName}
 Amazon WorkLink                                          worklink                  arn:aws:worklink::${Account}:${ResourceType}/${ResourcePath}
 Amazon WorkMail                                          workmail                  arn:aws:workmail:${Region}:${Account}:${ResourceType}/${ResourceId}
 Amazon WorkMail Message Flow                             workmailmessageflow       arn:aws:workmailmessageflow:${Region}:${Account}:message/${OrganizationId}/${Context}/${MessageId}
 Amazon WorkSpaces                                        workspaces                arn:aws:workspaces:${Region}:${Account}:*
 Amazon WorkSpaces Application Manager                    wam                       
+Amazon WorkSpaces Secure Browser                         workspaces-web            arn:aws:workspaces-web:${Region}:${Account}:${ResourceType}/${ResourceIdentifier}
 Amazon WorkSpaces Thin Client                            thinclient                arn:aws:thinclient:${Region}:${Account}:${ResourceType}/${ResourceIdentifier}
-Amazon WorkSpaces Web                                    workspaces-web            arn:aws:workspaces-web:${Region}:${Account}:${ResourceType}/${ResourceIdentifier}
 AmazonMediaImport                                        mediaimport               arn:aws:mediaimport:${Region}:${Account}/*
 Apache Kafka APIs for Amazon MSK clusters                kafka-cluster             arn:aws:kafka:${Region}:${Account}:${ResourceType}/${ResourceDescriptor}
 Application Discovery Arsenal                            arsenal                   
 AWS Account Management                                   account                   arn:aws:account::${Account}:account
 AWS Activate                                             activate                  
 AWS Amplify                                              amplify                   arn:aws:amplify:${Region}:${Account}:${ResourceType}/${ResourceName}
-AWS Amplify Admin                                        amplifybackend            arn:aws:amplifybackend:${Region}:${Account}:${ResourceType}/${ResourceName}
+AWS Amplify Admin                                        amplifybackend            arn:aws:amplifybackend:${Region}:${Account}:/${ResourceType}/${ResourceName}
 AWS Amplify UI Builder                                   amplifyuibuilder          arn:aws:amplifyuibuilder:${Region}:${Account}:${ResourceType}/${ResourcePath}
 AWS App Mesh                                             appmesh                   arn:aws:appmesh:${Region}:${Account}:${ResourceType}/${ResourceName}
 AWS App Mesh Preview                                     appmesh-preview           arn:aws:appmesh-preview:${Region}:${Account}:${ResourceType}/${ResourceName}
 AWS App Runner                                           apprunner                 arn:aws:apprunner:${Region}:${Account}:${ResourceType}/${PathToResource}
+AWS App Studio                                           appstudio                 arn:${Partition}:appstudio:${Region}:${Account}:${ResourceType}:${ResourcePath}
 AWS App2Container                                        a2c                       arn:${Partition}:a2c:${Region}:${Account}:${ResourceType}/${ResourceName}
 AWS AppConfig                                            appconfig                 arn:aws:appconfig:${Region}:${Account}:${RelativeId}
 AWS AppFabric                                            appfabric                 arn:aws:appfabric:${Region}:${Account}:${ResourceInfo}
@@ -225,6 +232,7 @@ AWS CloudWatch RUM                                       rum                    
 AWS CodeArtifact                                         codeartifact              arn:aws:codeartifact:${Region}:${Account}:${ResourceType}/${ResourceId}
 AWS CodeBuild                                            codebuild                 arn:aws:codebuild:${Region}:${Account}:build/${BuildId}
 AWS CodeCommit                                           codecommit                arn:aws:codecommit:${Region}:${Account}:${RepositoryName}
+AWS CodeConnections                                      codeconnections           arn:aws:codeconnections:${Region}:${Account}:${ResourceType}/${ResourceId}
 AWS CodeDeploy                                           codedeploy                arn:aws:codedeploy:${Region}:${Account}:${ResourceType}:${ResourceSpecifier}
 AWS CodeDeploy secure host commands service              codedeploy-commands-secure 
 AWS CodePipeline                                         codepipeline              arn:aws:codepipeline:${Region}:${Account}:${PathToPipelineResource}
@@ -236,6 +244,7 @@ AWS Config                                               config                 
 AWS Connector Service                                    awsconnector              arn:aws:<serviceName>:<region>:<account-id>:<resource-type>/<resource_name>
 AWS Console Mobile App                                   consoleapp                arn:aws:consoleapp:${Region}:${Account}:${ResourceType}
 AWS Consolidated Billing                                 consolidatedbilling       arn:${Partition}:consolidatedbilling::${Account}:${ResourceType}/${ResourceId}
+AWS Control Catalog                                      controlcatalog            arn:aws:controlcatalog:::${ResourceType}/${ResourcePath}
 AWS Control Tower                                        controltower              arn:aws:controltower:${Region}:${Account}:${ResourceType}/${ResourceName}
 AWS Cost and Usage Report                                cur                       arn:aws:cur:${Region}:${Account}:definition/${ResourceName}
 AWS Cost Explorer Service                                ce                        arn:aws:ce::${Account}:${ResourceType}/${ResourceName}
@@ -245,6 +254,7 @@ AWS Data Exchange                                        dataexchange           
 AWS Data Pipeline                                        datapipeline              arn:aws:datapipeline:${Region}:${Account}:${ResourceType}/${ResourcePath}
 AWS Database Migration Service                           dms                       arn:aws:dms:${Region}:${Account}:${Resource}
 AWS DataSync                                             datasync                  arn:aws:datasync:${Region}:${Account}:${ResourceType}/${ResourceName}
+AWS Deadline Cloud                                       deadline                  arn:aws:deadline:${Region}:${Account}:${ResourceType}/${ResourcePath}
 AWS DeepComposer                                         deepcomposer              arn:aws:deepcomposer:${Region}:${Account}:${ResourceType}/${ResourceName}
 AWS DeepLens                                             deeplens                  arn:aws:deeplens:<region>:<account-id>:<resource-type>/<resource_name>
 AWS DeepRacer                                            deepracer                 arn:aws:deepracer:${Region}:${Account}:${ResourceType}/${ResourceName}
@@ -256,8 +266,8 @@ AWS Elastic Beanstalk                                    elasticbeanstalk       
 AWS Elastic Disaster Recovery                            drs                       arn:aws:drs:${Region}:${Account}:${ResourceType}/${ResourceName}
 AWS Elastic Load Balancing                               elasticloadbalancing      arn:aws:elasticloadbalancing:${Region}:${Account}:${ResourceType}/${ResourceId}
 AWS Elastic Load Balancing V2                            elasticloadbalancing      arn:aws:elasticloadbalancing:${Region}:${Account}:${ResourceType}/${ResourceId}
-AWS Elemental Appliances and Software                    elemental-appliances-software arn:aws:elemental-appliances-software:${Region}:${Account}:${ResourceType}/${ResourceName}
-AWS Elemental Appliances and Software Activation Service elemental-activations     arn:aws:elemental-activations:${Region}:${Account}:${ResourceType}/${ResourceName}
+AWS Elemental Appliances and Software                    elemental-appliances-software arn:aws:elemental-appliances-software::${Account}:${ResourceType}/${ResourceId}
+AWS Elemental Appliances and Software Activation Service elemental-activations     arn:${Partition}:elemental-activations::${Account}:${ResourceType}/${ResourceId}
 AWS Elemental MediaConnect                               mediaconnect              arn:aws:mediaconnect:${Region}:${Account}:${Namespace}:${RelativeId}:${RelativeName}
 AWS Elemental MediaConvert                               mediaconvert              arn:aws:mediaconvert:${Region}:${Account}:${ResourceType}/${ResourceId}
 AWS Elemental MediaLive                                  medialive                 arn:aws:medialive:${Region}:${Account}:${ResourceType}:${ResourceId}
@@ -266,7 +276,7 @@ AWS Elemental MediaPackage V2                            mediapackagev2         
 AWS Elemental MediaPackage VOD                           mediapackage-vod          arn:aws:mediapackage-vod:${Region}:${Account}:${ResourceType}/${ResourceIdentifier}
 AWS Elemental MediaStore                                 mediastore                arn:aws:mediastore:${Region}:${Account}:${Resource}
 AWS Elemental MediaTailor                                mediatailor               arn:aws:mediatailor:${Region}:${Account}:${ResourceType}/${ResourceName}
-AWS Elemental Support Cases                              elemental-support-cases   arn:${Partition}:elemental-support-cases:${Region}:${Account}:${ResourceType}/${ResourceName}
+AWS Elemental Support Cases                              elemental-support-cases   arn:aws:elemental-support-cases::${Account}:${ResourceType}/${ResourceId}
 AWS Elemental Support Content                            elemental-support-content arn:${Partition}:elemental-support-content:${Region}:${Account}:${ResourceType}/${ResourceName}
 AWS Entity Resolution                                    entityresolution          arn:aws:entityresolution:${Region}:${Account}:${ResourceType}/${ResourceName}
 AWS Fault Injection Service                              fis                       arn:aws:fis:${Region}:${Account}:${ResourceType}/${ResourceName}
@@ -311,10 +321,11 @@ AWS IQ Permissions                                       iq-permission          
 AWS Key Management Service                               kms                       arn:aws:kms:${Region}:${Account}:${ResourceType}/${Id}
 AWS Lake Formation                                       lakeformation             arn:${Partition}:lakeformation:${Region}:${Account}:${ResourceType}/${ResourcePath}
 AWS Lambda                                               lambda                    arn:aws:lambda:${Region}:${Account}:${ResourceType}:${ResourceId}
-AWS Launch Wizard                                        launchwizard              
+AWS Launch Wizard                                        launchwizard              arn:aws:launchwizard:${Region}:${Account}:${ResourceType}/${ResourcePath}
 AWS License Manager                                      license-manager           arn:aws:license-manager:${Region}:${Account}:${ResourceType}:${ResourceId}
-AWS License Manager Linux Subscriptions Manager          license-manager-linux-subscriptions 
+AWS License Manager Linux Subscriptions Manager          license-manager-linux-subscriptions arn:aws:license-manager-linux-subscriptions:${Region}:${Account}:${ResourceType}/${ResourceId}
 AWS License Manager User Subscriptions                   license-manager-user-subscriptions 
+AWS Mainframe Modernization Application Testing provides tools and resources for automated functional equivalence testing for your migration projects. apptest                   arn:aws:apptest:${Region}:${Account}:${ResourceType}/${ResourceId}
 AWS Mainframe Modernization Service                      m2                        arn:aws:m2:${Region}:${Account}:${ResourceType}/${ResourceId}
 AWS Marketplace                                          aws-marketplace           
 AWS Marketplace Catalog                                  aws-marketplace           arn:aws:aws-marketplace:${Region}:${Account}:${Catalog}/${ResourceType}/${ResourceId}
@@ -345,10 +356,11 @@ AWS Outposts                                             outposts               
 AWS Panorama                                             panorama                  arn:aws:panorama:${Region}:${Account}:${ResourceType}/${ResourceName}
 AWS Partner central account management                   partnercentral-account-management 
 AWS Payment Cryptography                                 payment-cryptography      arn:aws:payment-cryptography:${Region}:${Account}:${ResourceType}/${Id}
-AWS Payments                                             payments                  
+AWS Payments                                             payments                  arn:aws:payments::${Account}:${ResourceType}:${ResourceId}
 AWS Performance Insights                                 pi                        arn:aws:pi:${Region}:${Account}:${ResourceType}/${RelativeId}
 AWS Price List                                           pricing                   
 AWS Private CA Connector for Active Directory            pca-connector-ad          arn:aws:pca-connector-ad:${Region}:${Account}:${ResourceType}
+AWS Private CA Connector for SCEP                        pca-connector-scep        arn:aws:pca-connector-scep:${Region}:${Account}:${ResourceType}
 AWS Private Certificate Authority                        acm-pca                   arn:aws:acm-pca:${Region}:${Account}:${ARNType}/${ResourceId}
 AWS Proton                                               proton                    arn:aws:proton:${Region}:${Account}:${ResourceType}/${ResourceName}
 AWS Purchase Orders Console                              purchase-orders           arn:aws:purchase-orders::${Account}:${ResourceType}/${ResourceName}
@@ -367,8 +379,9 @@ AWS Server Migration Service                             sms                    
 AWS Serverless Application Repository                    serverlessrepo            arn:aws:serverlessrepo:${Region}:${Account}:${ResourceType}/${ResourceId}
 AWS Service Catalog                                      servicecatalog            arn:aws:(catalog|servicecatalog):${Region}:${Account}:${ResourceType}/${Id}
 AWS service providing managed private networks           private-networks          arn:aws:private-networks:${Region}:${Account}:${RelativeId}
-AWS Shield                                               shield                    arn:aws:shield::${Account}:${Resource}/${ResourceId}
+AWS Shield                                               shield                    arn:aws:shield:${Region}:${Account}:${Resource}/${ResourceId}
 AWS Signer                                               signer                    arn:aws:signer:${Region}:${Account}:/${ResourceType}/${ResourceIdentifier}
+AWS Signin                                               signin                    
 AWS SimSpace Weaver                                      simspaceweaver            arn:aws:simspaceweaver:${Region}:${Account}:${ResourceType}/${ResourceId}
 AWS Snow Device Management                               snow-device-management    arn:aws:snow-device-management:<region>:<account-id>:<resource-type>/<resource_name>
 AWS Snowball                                             snowball                  
@@ -379,12 +392,14 @@ AWS Supply Chain                                         scn                    
 AWS Support                                              support                   
 AWS Support App in Slack                                 supportapp                
 AWS Support Plans                                        supportplans              ^arn:${Partition}:supportplans::${Account}:${ResourceType}/${ResourcePath}
+AWS Support Recommendations                              supportrecommendations    
 AWS Sustainability                                       sustainability            arn:${Partition}:sustainability:${Region}:${Account}:${ResourceType}/${ResourceName}
 AWS Systems Manager                                      ssm                       arn:aws:ssm:${Region}:${Account}:${RelativeId}
 AWS Systems Manager for SAP                              ssm-sap                   arn:aws:ssm-sap:${Region}:${Account}:${ApplicationType}/${ApplicationId}
 AWS Systems Manager GUI Connect                          ssm-guiconnect            
 AWS Systems Manager Incident Manager                     ssm-incidents             arn:aws:ssm-incidents::${Account}:${ResourceType}/${ResourceId}
 AWS Systems Manager Incident Manager Contacts            ssm-contacts              arn:aws:ssm-contacts:${Region}:${Account}:${ResourceType}/${ResourceId}
+AWS Systems Manager Quick Setup                          ssm-quicksetup            arn:aws:ssm-quicksetup:${Region}:${Account}:${ResourceType}/${ResourceId}
 AWS Tax Settings                                         tax                       
 AWS Telco Network Builder                                tnb                       arn:aws:tnb:${Region}:${Account}:${RelativeId}
 AWS Tiros                                                tiros                     arn:${Partition}:tiros:${Region}:${Account}:${RelativeId}
@@ -392,6 +407,7 @@ AWS Transfer Family                                      transfer               
 AWS Trusted Advisor                                      trustedadvisor            arn:aws:trustedadvisor:${Region}:${Account}:checks/${Category}/${CheckId}
 AWS User Notifications                                   notifications             arn:aws:notifications::${Account}:${ResourceType}/${ResourceId}
 AWS User Notifications Contacts                          notifications-contacts    arn:aws:notifications-contacts::${Account}:${ResourceType}/${ResourceId}
+AWS User Subscriptions                                   user-subscriptions        
 AWS Verified Access                                      verified-access           
 AWS WAF                                                  waf                       arn:aws:waf::${Account}:${ResourceId}/${Id}
 AWS WAF Regional                                         waf-regional              arn:aws:waf-regional:${Region}:${Account}:${ResourceId}/${Id}
@@ -402,3 +418,4 @@ AWS X-Ray                                                xray                   
 Database Query Metadata Service                          dbqms                     arn:${Partition}:dbqms::
 High-volume outbound communications                      connect-campaigns         arn:aws:connect-campaigns:${Region}:${Account}:campaign/${CampaignId}
 Service Quotas                                           servicequotas             arn:aws:servicequotas:${Region}:${Account}:${ResourceType}/${ResourceName}
+Tag Editor                                               resource-explorer         arn:${Partition}:resource-explorer:${Region}:${Account}:${ResourceType}/${ResourceName}
