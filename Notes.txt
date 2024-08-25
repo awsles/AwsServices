@@ -1,0 +1,2 @@
+* A nice but SLOW GUI: https://aws.permissions.cloud/
+* Someone's Recap: https://sonraisecurity.com/blog/april-recap-new-aws-services-and-sensitive-permissions/
