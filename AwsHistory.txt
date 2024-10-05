@@ -5273,10 +5273,5 @@ NEW ACTIONS:
   Amazon Q in Connect                                      wisdom:UpdateMessageTemplateMetadata                                             Write                   Grants permission to update metadata of the message template
 
 
-====================================================================================================
-05-Oct-2024 : There are 17349 actions across 421 AWS services.
-              0 changes have been detected: 0 new; 0 deprecated.
-There are 0 new service names and 0 deprecated service names.
-
 
 
