@@ -5,7 +5,7 @@
 .DESCRIPTION
 	Return a structure containing an entry for each service and action.
 	This works by reading the JavaScript assets used by the AWS Policy Generator
-	at https://awspolicygen.s3.amazonaws.com/policygen.html. 
+	at https://awspolicygen.s3.amazonaws.com/policygen.html (part of AWS Policy Baker).
 	The documentation page is also scraped for the description and access level information.
 	This script is necessary as there is (unfortunately) no AWS API which returns this information.
 	
@@ -47,10 +47,10 @@
 		(.\Get-AwsServices.ps1 -RawDataOnly).ServiceMap."Amazon Redshift".Actions   # All Amazon Redshift actions
 
 .NOTES
-	Author: Lester W.
-	Version: v0.21
+	Author: Lest W..
+	Version: v0.21a
 	Date: 09-Oct-23
-	Repository: https://github.com/leswaters/AwsServices
+	Repository: https://github.com/awsles/AwsServices
 	License: MIT License
 	
 	INPUT DATA:
