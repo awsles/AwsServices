@@ -5277,7 +5277,7 @@ NEW ACTIONS:
 
 ====================================================================================================
 28-Feb-2025 : There are 18443 actions across 437 AWS services.
-              1118 changes have been detected: 1106 new; 12 deprecated.
+Since 05-Oct-24, 1118 changes have been detected: 1106 new; 12 deprecated.
 There are 22 new service names and 6 deprecated service names.
 NEW :
   Amazon AI Operations
