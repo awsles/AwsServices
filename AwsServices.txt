@@ -77,6 +77,7 @@ Amazon Fraud Detector                                    frauddetector          
 Amazon FreeRTOS                                          freertos                  arn:aws:freertos:${Region}:${Account}:${Type}/${Name}
 Amazon FSx                                               fsx                       arn:aws:fsx:${Region}:${Account}:${ResourceType}/${ResourcePath}
 Amazon GameLift                                          gamelift                  arn:aws:gamelift:${Region}:${Account}:${ResourceType}/${ResourceId}
+Amazon GameLift Streams                                  gameliftstreams           arn:aws:gameliftstreams:${Region}:${Account}:${ResourceType}/${ResourceId}
 Amazon GroundTruth Labeling                              groundtruthlabeling       arn:${Partition}:groundtruthlabeling:${Region}:${Account}:${ResourceType}/${ResourcePath}
 Amazon GuardDuty                                         guardduty                 arn:aws:guardduty:${Region}:${Account}:.+
 Amazon Honeycode                                         honeycode                 arn:aws:honeycode:${Region}:${Account}:${ResourceType}:${ResourcePath}
@@ -135,6 +136,7 @@ Amazon Polly                                             polly                  
 Amazon Q                                                 q                         arn:aws:qdeveloper:${Region}:${Account}:${ResourceType}/${ResourceId}
 Amazon Q Business                                        qbusiness                 arn:aws:qbusiness:${Region}:${Account}:${ResourceType}/${ResourceName}
 Amazon Q Business Q Apps                                 qapps                     arn:aws:qapps:${Region}:${Account}:${ResourceType}:${ResourcePath}
+Amazon Q Developer                                       qdeveloper                arn:aws:qdeveloper:${Region}:${Account}:${ResourceType}
 Amazon Q in Connect                                      wisdom                    arn:aws:wisdom:${Region}:${Account}:${Resource}/${ResourceId}
 Amazon QLDB                                              qldb                      arn:aws:qldb:${Region}:${Account}:${ResourceType}/${ResourcePath}
 Amazon QuickSight                                        quicksight                arn:aws:quicksight:${Region}:${Account}:${ResourceType}/${ResourceId}
@@ -200,7 +202,7 @@ AWS Amplify UI Builder                                   amplifyuibuilder       
 AWS App Mesh                                             appmesh                   arn:aws:appmesh:${Region}:${Account}:${ResourceType}/${ResourceName}
 AWS App Mesh Preview                                     appmesh-preview           arn:aws:appmesh-preview:${Region}:${Account}:${ResourceType}/${ResourceName}
 AWS App Runner                                           apprunner                 arn:aws:apprunner:${Region}:${Account}:${ResourceType}/${PathToResource}
-AWS App Studio                                           appstudio                 arn:${Partition}:appstudio:${Region}:${Account}:${ResourceType}:${ResourcePath}
+AWS App Studio                                           appstudio                 arn:aws:appstudio:${Region}:${Account}:${ResourceType}/${ResourcePath}
 AWS App2Container                                        a2c                       arn:${Partition}:a2c:${Region}:${Account}:${ResourceType}/${ResourceName}
 AWS AppConfig                                            appconfig                 arn:aws:appconfig:${Region}:${Account}:${RelativeId}
 AWS AppFabric                                            appfabric                 arn:aws:appfabric:${Region}:${Account}:${ResourceInfo}
@@ -266,7 +268,6 @@ AWS Database Migration Service                           dms                    
 AWS DataSync                                             datasync                  arn:aws:datasync:${Region}:${Account}:${ResourceType}/${ResourceName}
 AWS Deadline Cloud                                       deadline                  arn:aws:deadline:${Region}:${Account}:${ResourceType}/${ResourcePath}
 AWS DeepComposer                                         deepcomposer              arn:aws:deepcomposer:${Region}:${Account}:${ResourceType}/${ResourceName}
-AWS DeepLens                                             deeplens                  arn:aws:deeplens:<region>:<account-id>:<resource-type>/<resource_name>
 AWS DeepRacer                                            deepracer                 arn:aws:deepracer:${Region}:${Account}:${ResourceType}/${ResourceName}
 AWS Device Farm                                          devicefarm                arn:aws:devicefarm:${Region}:${Account}:${ResourceType}:${ResourceId}
 AWS Diagnostic tools                                     ts                        arn:aws:ts::${Account}:execution/${UserId}/${ToolId}/${ExecutionId}
@@ -325,6 +326,7 @@ AWS IoT FleetWise                                        iotfleetwise           
 AWS IoT Greengrass                                       greengrass                arn:aws:greengrass:${Region}:${Account}:/greengrass/${ResourceType}/${ResourcePath}
 AWS IoT Greengrass V2                                    greengrass                arn:aws:greengrass:${Region}:${Account}:${ResourceType}:${ResourcePath}
 AWS IoT Jobs DataPlane                                   iotjobsdata               arn:aws:iot:${Region}:${Account}:${Type}/${Name}
+AWS IoT managed integrations feature of IoT Device Management iotmanagedintegrations    arn:aws:iotmanagedintegrations:${Region}:${Account}:${ResourceType}/${ResourcePath}
 AWS IoT SiteWise                                         iotsitewise               arn:aws:iotsitewise:${Region}:${Account}:${ResourceType}/${ResourceId}
 AWS IoT TwinMaker                                        iottwinmaker              arn:aws:iottwinmaker:${Region}:${Account}:${ResourceType}/${ResourceTypeId}
 AWS IoT Wireless                                         iotwireless               arn:aws:iotwireless:${Region}:${Account}:${ResourceType}/${ResourceId}
@@ -400,7 +402,7 @@ AWS Shield                                               shield                 
 AWS Signer                                               signer                    arn:aws:signer:${Region}:${Account}:/${ResourceType}/${ResourceIdentifier}
 AWS Signin                                               signin                    
 AWS SimSpace Weaver                                      simspaceweaver            arn:aws:simspaceweaver:${Region}:${Account}:${ResourceType}/${ResourceId}
-AWS Snow Device Management                               snow-device-management    arn:aws:snow-device-management:<region>:<account-id>:<resource-type>/<resource_name>
+AWS Snow Device Management                               snow-device-management    arn:aws:snow-device-management:${Region}:${Account}:${ResourceType}/${ResourceName}
 AWS Snowball                                             snowball                  
 AWS SQL Workbench                                        sqlworkbench              arn:aws:sqlworkbench:${Region}:${Account}:${ResourceType}/${ResourceName}
 AWS Step Functions                                       states                    arn:aws:states:${Region}:${Account}:${ResourceType}:${ResourceName}
