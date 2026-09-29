@@ -4,6 +4,11 @@ the AWS policy generator and AWS documentation.
 Useful information for anyone responsible for managing AWS IAM role and policy definitions.
 Formatted text versions are also included for browsing.
 
+## OUT OF ORDER
+AWS has changed the way they structure their online API documentation which has unfortunately
+broken the way this script works. The script identifies the various API permissions and then
+attempts to access the respective documentation. I am investigating a fix for this.
+
 ## Description
 This repository contains two CSV files which document the various AWS services with the
 actions used in policy permissions. This is quite useful when doing policy and role planning
