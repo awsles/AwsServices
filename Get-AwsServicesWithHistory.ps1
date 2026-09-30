@@ -217,7 +217,7 @@ if ($HistoryFile)
 if ($Update)
 {
 	# Update CSV
-	$CurrentData | Export-Csv -Path $OutputFile -encoding UTF8 -force
+	$CurrentData | Sort-Object -Property ServiceName,Action | Export-Csv -Path $OutputFile -encoding UTF8 -force -NoTypeInformation
 	
 	# Update associated text file
 	$TxtFile = $OutputFile.Replace('.csv', '.txt')
@@ -225,5 +225,23 @@ if ($Update)
 		$CurrentData | foreach { ("{0,-56} {1,-80} {2,-23} {3}" -f $_.ServiceName, $_.Action, $_.AccessLevel, $_.Description) } | out-file -FilePath $TxtFile -width 250 -Encoding utf8 -Append
 
 	# TBD - Update services files...
+	
+	# TBD - Create MarkDown Doc
+	# $CurrentData = (Import-CSV 'AwsServiceActions.csv' | Sort-Object -Property ServiceName,Action); $MDFile = 'AwsServiceActions.md'
+	$MDFile = $OutputFile.Replace('.csv', '.md')
+	"# AWS Services and Actions`nUpdated: $Today`n" | out-file -FilePath $MDFile -Encoding utf8 -force -width 250  # HEADER
+	"There are $($CurrentData.Actions.Count) actions across $($CurrentServices.Count) AWS services.`n`n" `
+		| out-file -FilePath $MDFile -Encoding utf8 -Append -width 250
+	# Loop through and create a section and table for each service
+	ForEach ($row in $CurrentData) {
+		if ($row.ServiceName -ne $CurrentService) {
+			# Start a new service section
+			$CurrentService = $row.ServiceName ; write-host $CurrentService
+			"---`n## $($row.ServiceName)`n`n| Action | Description | AccessLevel | Doc | Doc2 |`n| ------ | ----------- | ----------- | --- | ---- |" `
+				| out-file -FilePath $MDFile -Encoding utf8 -Append -width 250
+		}
+		"| $($row.Action) | $($row.Description) | $($row.AccessLevel) | [Doc]($row.DocLink) | [Doc2]($row.DocLink2) |" `
+				| out-file -FilePath $MDFile -Encoding utf8 -Append -width 250
+	}
 }
 
