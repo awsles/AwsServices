@@ -48,7 +48,7 @@
 
 .NOTES
 	Author: awsles
-	Version: v0.41
+	Version: v0.42
 	Date: 30-Sep-26
 	Repository: https://github.com/awsles/AwsServices
 	License: MIT License
@@ -439,9 +439,9 @@ if ($RawDataOnly)
 elseif ($ServicesOnly)
 	{ Return $Services }
 elseif ($Extended)
-	{ Return $Results }
+	{ Return $Results | Sort-Object -Property ServiceName,Action }
 else 
-	{ Return ($Results | Select-Object -Property * -ExcludeProperty StringPrefix,ARNFormat,ARNRegex,HasResource ) }
+	{ Return ($Results | Sort-Object -Property ServiceName,Action | Select-Object -Property * -ExcludeProperty StringPrefix,ARNFormat,ARNRegex,HasResource ) }
 
 	
 # $Results | Out-GridView -Title "AWS Services"	# DEBUG
