@@ -27,7 +27,7 @@
 
 .EXAMPLE	
 	TO SEE A QUICK VIEW:
-		.\Get-AwsServices.ps1 | Out-GridView
+		.\Get-AwsServices.ps1 -ServicesOnly | Out-GridView
 	
 	TO GET A CSV:
 		.\Get-AwsServices.ps1 -AddNote | Export-Csv -Path 'AwsServiceActions.csv' -encoding utf8 -force
@@ -47,15 +47,15 @@
 		(.\Get-AwsServices.ps1 -RawDataOnly).ServiceMap."Amazon Redshift".Actions   # All Amazon Redshift actions
 
 .NOTES
-	Author: Lest W..
-	Version: v0.21a
-	Date: 09-Oct-23
+	Author: awsles
+	Version: v0.41
+	Date: 30-Sep-26
 	Repository: https://github.com/awsles/AwsServices
 	License: MIT License
 	
 	INPUT DATA:
 	$WebResponse = Invoke-WebRequest -UseBasicParsing -uri "https://awspolicygen.s3.amazonaws.com/js/policies.js"
-	
+		
 .LINK
 	https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_actions-resources-contextkeys.html
 	https://github.com/rvedotrc/aws-iam-reference	
@@ -110,6 +110,7 @@ class AwsAction
 	[string] $Description
 	[string] $AccessLevel
 	[string] $DocLink
+	[string] $DocLink2
 	[string] $ARNFormat				# Extended
 	[string] $ARNRegex				# Extended
 	[string] $HasResource			# Extended
@@ -120,8 +121,17 @@ class AwsAction
 # |  CONSTANTS																						|
 # +=================================================================================================+
 $AwsPolicyJs	= "https://awspolicygen.s3.amazonaws.com/js/policies.js"
-$AwsDocRoot		= "https://docs.aws.amazon.com/IAM/latest/UserGuide/list_%SERVICE%.html"
+$AwsDocRoot		= "https://docs.aws.amazon.com/service-authorization/latest/reference/list_%SERVICE%.html"
 
+# Documentation Exceptions (page is usally based on the Service Prefix, but there are expections)
+#	To help DEBUG AWS Documentation:
+#	   .\Get-AwsServices.ps1 -ServicesOnly | Select -Property ServiceShortName,ServiceName,@{Name = "Action1"; `
+#      Expression = { $_.Actions.SubString(1).Split(',')[0].Replace('"','') }},DocLink | Export-csv -NoTypeInformation "AwsServices-Temp2.csv" -Force
+$DocPageMap = Import-Csv -Path 'DocPages.csv'   # Columns: ServiceName,ServiceShortName,Page,SpanPrefix
+if (!$DocPageMap) {
+	Write-Warning "Run this in the directory that contains DocPages.csv."
+	Return $null
+}
 
 # +=================================================================================================+
 # |  LOGIN		              																		|
@@ -181,19 +191,33 @@ $Services = @()
 $ServiceList = ($RawData.ServiceMap | Get-Member | Where-Object {$_.MemberType -Like 'NoteProperty'}).Name
 foreach ($service in $ServiceList)
 {
-	write-verbose "Service: $service"
+	$SkipWarning = $False  # True if we hit a page retrieval error
+	
+	write-verbose "`n========== $service =========="
 	$pctComplete = [string] ([math]::Truncate((++$ctr / $ServiceList.Count)*100))
 	Write-Progress -Activity $Activity -PercentComplete $pctComplete  -Status "$service - $pctComplete% Complete  ($ctr of $($ServiceList.Count))" -ID 1
 	
 	# Get the specific Item
 	$ServiceItem = $RawData.ServiceMap.$service
 	
-	# Cleanup Name
-	$ServiceKeyName = $service.ToLower().Replace(' ','').Replace('(','').Replace(')','')
+	# Cleanup ServiceKeyName (used in documentation)
+#	$ServiceKeyName = $service.ToLower().Replace(' ','').Replace('(','').Replace(')','')  # OLD
+	$ServiceKeyName = $ServiceItem.StringPrefix
+#	$SpanKeyName    = 'list_' + $ServiceItem.StringPrefix    # <span id="..."> < 
+	$SpanKeyName    = 'list_' +$ServiceKeyName + '-action-'  # <span id="..."> < 
 	
 	# Guess Documentation Page and retrieve it
-	$DocPage				= $AwsDocRoot.Replace('%SERVICE%', $ServiceKeyName)
-	
+	$i = $DocPageMap.ServiceName.IndexOf($service)
+	if ($i -ge 0) {
+		$DocPage = $AwsDocRoot.SubString(0,$AwsDocRoot.LastIndexOf('/')+1) + $DocPageMap.page[$i]
+		if ($DocPageMap.SpanPrefix[$i].Length -gt 5) { $SpanKeyName = $DocPageMap.SpanPrefix[$i] }
+	}
+	else {
+		$DocPage = $AwsDocRoot.Replace('%SERVICE%', $ServiceKeyName)  # OLD WAY
+	}
+##	$DocPage = 'https://docs.aws.amazon.com/service-authorization/latest/reference/list_ec2.html' # DEBUG DEBUG
+	write-verbose " $DocPage   ($i)"
+
 	# Build up the Services() array
 	$ServiceEntry = New-Object AwsService
 	$ServiceEntry.ServiceShortName	= $ServiceItem.StringPrefix
@@ -206,130 +230,142 @@ foreach ($service in $ServiceList)
 	$ServiceEntry.DocLink			= $DocPage
 	$Services += $ServiceEntry
 	
+	################
 	if (!$ServicesOnly)
 	{
 		# Grab the documentation page
-		if ($ScanDocumentation)
-		{
-			$WebResponse2 		= Invoke-WebRequest -uri $DocPage -UseDefaultCredentials 
-			# DO NOT SPECIFY -UseBasicParsing		
+		Try {
+			if ($ScanDocumentation)
+			{
+				$WebResponse2 		= Invoke-WebRequest -uri $DocPage -UseDefaultCredentials 
+				# DO NOT SPECIFY -UseBasicParsing		
+			}
+			else
+			{
+				$WebResponse2 		= Invoke-WebRequest -uri $DocPage -UseDefaultCredentials -UseBasicParsing
+			}
 		}
-		else
-		{
-			$WebResponse2 		= Invoke-WebRequest -uri $DocPage -UseDefaultCredentials -UseBasicParsing
+		Catch {
+			$WebResponse2 = $null
+			Write-Warning "SERVICE: '$service' - Error retrieving: $DocPage"
+			$SkipWarning = $True
+			Pause
 		}
 
-		# Extract Content
+		# Extract Content - There may be multiple tables now...
+		$MasterTable 			= @()
 		$Content2				= $WebResponse2.Content										# Get HTML content
-		$ActionsIndex			= $Content2.IndexOf('<th>Actions</th>')						# Marker we use
-		if ($ActionsIndex -gt 300)
-			{ $TableIndex		= $Content2.IndexOf('<table', $ActionsIndex-300) }			# Go back a bit to find start
-		else
-			{ $TableIndex		= $Content2.IndexOf('<table', 0) }
-		# If we got something...
-		if ($TableIndex -ge 0)
-		{
-			$TableBody				= $Content2.SubString($TableIndex)							# Start of Actions Table
-			$TableBody				= $TableBody.SubString(0, $TableBody.IndexOf('</table>')+8)	# Capture Table
-			## Extract Table ID
-			$TableId				= $TableBody.SubString($TableBody.IndexOf(' id="')+5)
-			$TableId				= $TableId.SubString(0, $TableId.IndexOf('"'))
-			write-verbose "TableId: $TableId"
-		}
-		else
-		{
-			# Failed
-			$TableId = $null
-		}
+		$TableIDs				= @()
+		$TableColumns			= @('<th>Action</th>', '<th>Operation</th>', '<th>Actions</th>')
+		$HeaderLabels			= @('action', 'actions')  # Lower case!  'operation',
 		
-		## Scan the documentation page (if requested)
-		if ($ScanDocumentation -And $TableId)
-		{
-			# Extract table elements into DocumentedActions()
-			# This allows us to eliminate actions that we see, leaving only those that weren't in the JavaScript
-			# We conveniently use the ParsedHtml property returned by Invoke-WebRequest.
-			## Extract the tables out of the web request
-			$table = $WebResponse2.ParsedHtml.getElementById($TableId)
-			# $tables = @($WebResponse2.ParsedHtml.getElementsByTagName("TABLE"))		# OLD APPROACH
-			# $table = $tables[1]														# **ASSUME* 2nd Table...
-		
-			# This is MESSY for tables which have rowspans...
-			$titles = @()
-			$rows = @($table.Rows)
-			$DocTable = @()
-			$RowSpan = [int32] 1		# Assume no rowspan
-			## Go through all of the rows in the table
-			foreach($row in $rows)
-			{
-				# If we have a previous rowspan > 1, then count down
-				if ($RowSpan -gt 1)
-				{
-					$rowspan--
-					continue
-				}
+		# Grab all <tables>, each into its own entry that we can parse
+		$Tables = $WebResponse2.Content.Split('<table ')[1..20]  # Discard 1st entry
+		if ($Tables.Count -eq 0) { write-warning "No tables found in $DocPage" ; pause }
+
+		# Loop through the Tables
+		For ($i=0; $i -lt $Tables.Count; $i++) {
+			$table = $Tables[$i]
 			
-				# Check $row.innerHTML for rowspan=xxx so we can skip subsequent rows as needed...
-				$RowSpan = [int32] 1		# Assume no rowspan
-				Try
-				{
-					$RowSpanIndex = $row.InnerHTML.ToLower().IndexOf(' rowspan=')
-					if ($RowSpanIndex -gt 0)
-					{
-						# TBD
-						$RowSpanTxt	= $row.InnerHTML.SubString($RowSpanIndex + 9)
-						$RowSpan	= [int32] $RowSpanTxt.SubString(0,$RowSpanTxt.IndexOf('>'))  # CAREFUL! Could be a space!!
-					}
+			# Table Headers
+			$HeaderHTML = $table.SubString(0,$table.IndexOf('</thead>'))
+			$HeaderHTML = $HeaderHTML.SubString($HeaderHTML.IndexOf('<thead>'))
+			$Headers = $HeaderHTML.Split('<th>')[1..20]  # Discard 1st entry
+			For ($j=0; $j -lt $Headers.Count; $j++) {
+				$Headers[$j] = $Headers[$j].SubString(0,$Headers[$j].IndexOf('</th>')).Trim().ToLower()
+			}
+			$Rows = $table.Split('<tr>')[1..2000]  # Discard 1st entry
+			For ($j=0; $j -lt $Rows.Count; $j++) {
+				$Rows[$j] = $Rows[$j].SubString(0,$Rows[$j].IndexOf('</tr>')).Trim()
+			}
+			# $Rows[0] is the header row!
+			
+			# Do we want this table?
+			If (!($HeaderLabels -Contains $Headers[0])) { continue; }
+			
+			# Index of description & Access level
+			$DescIDX = $Headers.IndexOf('description')     # Usually 1
+			$AlevelIDX = $Headers.IndexOf('access level')  # Usally 4
+			if ($DescIDX -lt 0) { write-warning "'Description' Column not found in Table $i"; pause }
+			if ($AlevelIDX -lt 0) { write-warning "'Access level' Column not found in Table $i"; pause }
+			
+			# Parse the rows to extract the action, description, and Access level
+			ForEach ($row in $Rows) {
+				$Columns = $row.Split('<td')[1..99]
+				if ($Columns.Count -eq 0)	{ continue }  # Skip Header Row (has '<TH>' instead of '<TD>')
+				For ($j=0; $j -lt $Columns.Count; $j++) {
+					$Columns[$j] = $Columns[$j].SubString(0,$Columns[$j].IndexOf('</td>')).Trim()
 				}
-				Catch
-				{
-					; # Do Nothing
+				if (($Columns.Count -lt 3) -Or ($Columns.Count -le $ALevelIDX)) { continue }  # Skip these
+
+				# Extract HTML
+				$ActionHTML      = $Columns[0]
+				$DescriptionHTML = $Columns[$DescIDX]
+				$AccessLevelHTML = $Columns[$ALevelIDX]
+
+				if (!$AccessLevelHTML -OR !$DescriptionHTML) { write-warning "OOps!"; pause }
+				
+				# Extract SPAN ID
+				$k = $ActionHTML.IndexOf('span id=')
+				if ($k -ge 0) {
+					$ActionID = $ActionHTML.SubString($k+9)
+					$ActionID = $ActionID.SubString(0,$ActionID.IndexOf('"'))
+				} else {
+					$ActionID = ''
 				}
 				
-				# Extract Cells
-				$cells = @($row.Cells)
-
-				## If we've found a table header, remember its titles
-				if($cells[0].tagName -like "TH")
-				{
-					$titles = @($cells | % { ("" + $_.InnerText).Trim() })
-					continue
+				# Extract href and label
+				$k = $ActionHTML.IndexOf('a href=')
+				if ($k -ge 0) {
+					$ActionHREF = $ActionHTML.SubString($k+8)
+					$ActionLabel = $ActionHREF.SubString($ActionHREF.IndexOf('>')+1)
+					$ActionLabel = $ActionLabel.SubString(0,$ActionLabel.IndexOf('</a>'))
+					$ActionHREF = $ActionHREF.SubString(0,$ActionHREF.IndexOf('"'))
+				} else {
+					$ActionHREF = '' ; $ActionLabel = '(not found)'
+				}
+				
+				# Extract description
+				$k = $DescriptionHTML.IndexOf('<p>')
+				if ($k -ge 0) {
+					$Description = $DescriptionHTML.SubString($k+3)
+					if ($Description.IndexOf('</p>') -lt 0) { write-host "BREAK1"; pause }  # DEBUG
+					$Description = $Description.SubString(0,$Description.IndexOf('</p>'))
+				} else {
+					$Description = '(not found)'
 				}
 
-				## If we haven't found any table headers, make up names "C1", "C2", etc.
-				if(-not $titles)
-				{
-					$titles = @(1..($cells.Count + 2) | % { "C$_" })
+				# Extract Access level
+				$k = $AccessLevelHTML.IndexOf('<p>')
+				if ($k -ge 0) {
+					$AccessLevel = $AccessLevelHTML.SubString($k+3)
+					$AccessLevel = $AccessLevel.SubString(0,$AccessLevel.IndexOf('</p>'))
+				} else {
+					$AccessLevel = ''
 				}
 
-				## Now go through the cells in the the row. For each, try to find the
-				## title that represents that column and create a hashtable mapping those
-				## titles to content
-				$resultObject = [Ordered] @{}
-				for($counter = 0; $counter -lt $cells.Count; $counter++)
-				{
-					$title = $titles[$counter]
-					if(-not $title) { continue }
-					$resultObject[$title] = ("" + $cells[$counter].InnerText).Trim()
+				# Build our object
+				$MasterTable += [PSCustomObject] @{
+					ActionID 		= $ActionID
+					ActionHREF		= $ActionHREF
+					ActionLabel		= $ActionLabel
+					Description		= $Description
+					AccessLevel		= $AccessLevel
 				}
+			} # END ForEach Row
+		} # END ForEach Table
+		# RETURN $MasterTable # DEBUG
 
-				## And finally cast that hashtable to a PSCustomObject
-				$DocTable += [PSCustomObject] $resultObject
-			}
-			# $DocTable has the results
+		# Make sure the rows in the doc matches the count of actions. If it doesn't, output a warning.
+		if (($MasterTable.Count -ne $ServiceItem.Actions.Count)) {
+			Write-Warning "Found $($MasterTable.Count) table rows in doc. There are $($ServiceItem.Actions.Count) Actions to be mapped."
+			pause  # DEBUG
 		}
-	
+		
 		# Loop through each Action
+		$NoMatchFlag 			= $False
 		foreach ($action in $ServiceItem.Actions)
-		{
-			# Eliminate action entries in $DocTable as we see them 
-			if ($ScanDocumentation -And $DocTable)
-			{
-				$x = [ref] ($DocTable | Where-Object {$_.Actions -like $action} )					# Get By Reference!!
-				if ($x.Count -gt 1) { write-warning "Multiple Actions found for $service - $action" }  
-				if (!$x) { $x = [ref] ($DocTable | Where-Object {$_.Actions -like "$action *" } ) }	# catch 'action [PermissionsOnly]'
-				if ($x) { $x.Value.Actions = "--"	}												# Eliminate it
-			}
-			
+		{		
 			# Create an object
 			$Entry = New-Object AwsAction
 			$Entry.ServiceName		= $service
@@ -344,44 +380,34 @@ foreach ($service in $ServiceList)
 			}
 									   
 			
-			# See if we can find the Description
-			$SearchId 				= $ServiceKeyName + '-' + $action
-			Try
-			{
-				$Body3 					= $TableBody.SubString($TableBody.IndexOf($SearchId))   # Do not search for $action!
-				$Body3 					= $Body3.SubString($Body3.IndexOf('<td')+3)		# Find next <td>
-				$Body3					= $Body3.SubString($Body3.IndexOf('>')+1)		# Closing '>' for <td> tag 
-				$Description			= $Body3.SubString(0, $Body3.IndexOf('</td>')).Trim()	# </td>
-				$Entry.Description		= [regex]::Replace($Description, "\s+", " ")	# Clean up spaces
+			# See if we can find the Description for the Service Action
+			# Note that it may or may not be preceeded by the prefix.
+			# $SearchId 					= 'list_' +$ServiceKeyName + '-action-' + $action # Or SpanKeyName?  # OLD
+			$SearchId 					= $SpanKeyName + $action
+			Try {
+				$MasterMatch 				= $MasterTable.ActionID.IndexOf($SearchId)
 			}
-			Catch
-			{
-				# write-host -ForegroundColor Yellow $service
-				write-warning "$service - Search failed for '$SearchId' `n         PAGE: $DocPage"
-				$Entry.Description		= "--- DOCPAGE NOT FOUND ---"
-				$Entry.AccessLevel		= ""
-				# write-output $_
+			Catch {
+				$MasterMatch = -1
 			}
-
-			# See if we can find the Access Level (next column - start with $Body3)
-			if (!$Entry.Description.StartsWith('---'))
-			{
-				Try
-				{
-					$Body4					= $Body3.SubString($Body3.IndexOf('<td')+3)
-					$Body4					= $Body4.SubString($Body4.IndexOf('>')+1)		# Closing '>'
-					$AccessLevel			= $Body4.SubString(0, $Body4.IndexOf('</td>')) -replace '<[^>]+>',''
-					$Entry.AccessLevel		= [regex]::Replace($AccessLevel, "\s+", " ").Trim()
-				}
-				Catch
-				{
-					# write-host -ForegroundColor Yellow $service
-					write-warning "$service - AccessLevel search failed for '$SearchId' `n         PAGE: $DocPage"
-					$Entry.AccessLevel		= "--- ERROR ---"
-					write-output $_
-				}
+			
+			If ($MasterMatch -ge 0) {
+				$Entry.DocLink2			= $MasterTable[$MasterMatch].ActionHREF
+				$Entry.Description		= $MasterTable[$MasterMatch].Description
+				$Entry.AccessLevel		= $MasterTable[$MasterMatch].AccessLevel
+				$NoMatchFlag 			= $False  # Flag prevents contiguous repitition
+				
+			} else {
+				$Entry.DocLink2			= ''
+				$Entry.Description		= '--- DOCPAGE NOT FOUND ---'
+				$Entry.AccessLevel		= ''
+				write-Host "  No match found for '$SearchID'"
+#				if ($MasterTable.Count -gt 0) {
+#					write-Host "  No match found for $SearchID"
+#					if ($NoMatchFlag -eq $False) {$NoMatchFlag = $True; pause }
+#				}
 			}
-		
+			
 			# Save the results
 			$Results += $Entry
 		}
@@ -407,7 +433,6 @@ foreach ($service in $ServiceList)
 	}
 }
 Write-Progress -Activity $Activity -PercentComplete 100 -Completed -ID 1
-
 
 if ($RawDataOnly)
 	{ Return $RawData }  # we should never get here as this case exits above
