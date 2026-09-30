@@ -50,7 +50,7 @@
 
 .NOTES
 	Author: Les W.
-	Version: v0.07c
+	Version: v0.08
 	Date: 01-Mar-25
 	Repository: https://github.com/leswaters/AwsServices
 	License: MIT License
