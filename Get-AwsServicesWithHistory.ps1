@@ -232,7 +232,7 @@ if ($Update)
 	"# AWS Services and Actions`nUpdated: $Today`n" | out-file -FilePath $MDFile -Encoding utf8 -force -width 250  # HEADER
 	"There are $($CurrentData.Actions.Count) actions across $($CurrentServices.Count) AWS services.`n`n" `
 		| out-file -FilePath $MDFile -Encoding utf8 -Append -width 250
-	# Loop through and create a section and table for each service
+	# Loop through and create a section and table for each service;  View with https://mdview.io/markdown-reader
 	ForEach ($row in $CurrentData) {
 		if ($row.ServiceName -ne $CurrentService) {
 			# Start a new service section
@@ -240,7 +240,7 @@ if ($Update)
 			"---`n## $($row.ServiceName)`n`n| Action | Description | AccessLevel | Doc | Doc2 |`n| ------ | ----------- | ----------- | --- | ---- |" `
 				| out-file -FilePath $MDFile -Encoding utf8 -Append -width 250
 		}
-		"| $($row.Action) | $($row.Description) | $($row.AccessLevel) | [Doc]($row.DocLink) | [Doc2]($row.DocLink2) |" `
+		"| $($row.Action) | $($row.Description) | $($row.AccessLevel) | [Doc]($($row.DocLink)) | [Doc2]($($row.DocLink2)) |" `
 				| out-file -FilePath $MDFile -Encoding utf8 -Append -width 250
 	}
 }
