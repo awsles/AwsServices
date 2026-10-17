@@ -1,4 +1,4 @@
-![AWS Services](AWSServices.png)
+![AWS Services](images/AWSServices.png)
 
 # AwsServices
 This script generates a list of AWS Services and IAM Actions in CSV format, automatically extracted from
