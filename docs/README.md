@@ -5,7 +5,7 @@ This script generates a list of AWS Services and IAM Actions in CSV format, auto
 the AWS policy generator and AWS documentation. This is very useful information for anyone responsible for managing AWS IAM role and policy definitions.
 
 * [AwsServiceActions.md](AwsServiceActions.md) - List of AWS services and action in Markdown format (~7MB)
-* [AwsServiceActions.csv](AwsServiceActions.csv) - List of AWS services and action in CSV format (~7MB)
+* [AwsServiceActions.csv](AwsServiceActions.csv) - List of AWS services and actions in CSV format (~7MB)
 * [AwsServices.csv](AwsServices.csv) - List of AWS services only (~733KB)
 * [AwsServices.txt](AwsServices.txt) - List of AWS Services as formatted text
 
