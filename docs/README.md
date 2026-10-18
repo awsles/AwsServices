@@ -65,7 +65,7 @@ EXAMPLE:
 
 ## Notes
 Data is retrieved entirely from public information. Comment lines in the CSV (including the header at the top) start with a hashtag (#).  The date
-when the data was scraped along with the row count may be found at the bottom of each CSV. Because AWS does not provide a single API for retrieving a complete catalog of services and operations, the script uses a *best-effort discovery process*, extracting information from JavaScript assets used by the [AWS Policy Generator](https://awspolicygen.s3.amazonaws.com/policygen.html). In addition, the respective documentation pages are also scraped for the description and access level information. The documentation page is also scanned for any actions that may not appear in the JavaScript asset list.
+when the data was scraped along with the row count may be found at the bottom of each CSV. AWS does not provide a single API for retrieving a complete catalog of services and operations (outside of the JSON files). The script uses a *best-effort discovery process*, extracting information from JavaScript assets used by the [AWS Policy Generator](https://awspolicygen.s3.amazonaws.com/policygen.html) and by inspecting respective documentation pages for the description and access level information. The documentation page is also scanned for any actions that don't appear in the JavaScript asset list.
 
 * The AWS documentation may be found at:
 [https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_actions-resources-contextkeys.html](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_actions-resources-contextkeys.html)
