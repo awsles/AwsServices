@@ -50,8 +50,8 @@
 
 .NOTES
 	Author: Les W.
-	Version: v0.08
-	Date: 01-Mar-25
+	Version: v0.09
+	Date: 18-Oct-26
 	Repository: https://github.com/leswaters/AwsServices
 	License: MIT License
 	
@@ -75,9 +75,9 @@
 [cmdletbinding()]   #  Add -Verbose support; use: [cmdletbinding(SupportsShouldProcess=$True)] to add WhatIf support
 Param
 (
-	[string] $InputFile			= 'AwsServiceActions.csv',
+	[string] $InputFile			= 'docs\AwsServiceActions.csv',
 	[string] $OutputFile		= $InputFile,	
-	[string] $HistoryFile		= 'AwsHistory.txt',
+	[string] $HistoryFile		= 'docs\AwsHistory.txt',
 	[switch] $Update			= $false
 )
 
