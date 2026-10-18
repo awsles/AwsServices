@@ -28,6 +28,7 @@ AWS Server Migration Service        sms                       arn:aws:<serviceNa
 This CSV lists all services with the full name, short name, all actions (as a bracketed list `[ ]`), the ARN format and it's RegEx, all condition keys (also bracketed `[ ]`), and the documentation link for the service.
 
 EXAMPLE:
+
 |**ServiceShortName**|**ServiceName**|**Actions**|**ARNFormat**|**ARNRegex**|**conditionKeys**|**HasResource**|**DocLink**|
 |s3|Amazon S3|[AbortMultipartUpload;...]|arn:aws:s3:::${BucketName}/${KeyName}|^arn:aws:s3:::.+|[aws:RequestTag/${TagKey};...]|True|https://docs.aws.amazon.com/service-authorization/latest/reference/list_s3.html|
 |sts|AWS Security Token Service|[AssumeRole;...]|arn:aws:iam::${Account}:${RelativeId}|^arn:aws:iam::.+|[cognito-identity.amazonaws.com:amr;...]|True|https://docs.aws.amazon.com/service-authorization/latest/reference/list_sts.html|
@@ -38,6 +39,7 @@ EXAMPLE:
 This lengthy CSV (over 7MB) consists of all services, their respective actions, the associated access level for the action, and two documentation links. 
 
 EXAMPLE:
+
 | **ServiceName** | **Action** | **Description** | **AccessLevel** | **Doc** | **Doc2** |
 | --- | —— | ———– | ———– | — | —- |
 | AWS Security Token Service | **sts:AssumeRole** | Grants permission to obtain a set of temporary security credentials that you can use to access AWS resources that you might not normally have access to | Write | [Doc](https://docs.aws.amazon.com/service-authorization/latest/reference/list_sts.html) | [Doc2](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html) |
