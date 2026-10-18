@@ -1,6 +1,6 @@
 ![AWS Services](images/AWSServices.png)
 
-➡️ **Click [HERE](AwsServiceActions.html) to go directly to the catalog!** ⬅️
+ **Click ➡️[HERE](AwsServiceActions.html)⬅️ to go directly to the catalog!** 
 
 # AWS Services and IAM Actions Catalog
 This PowerShell script builds a comprehensive, searchable catalog of **AWS services and their associated IAM actions (permissions)**, providing a convenient, consolidated reference for AWS access management. The output includes service names, service prefixes, ARN formats, and individual actions (such as `sts:AssumeRole`), along with their descriptions and access levels (List, Read, Write, Permissions Management, and Tagging). The script extracts information from AWS JavaScript assets, enriching it with AWS documentation, and scanning documentation for additional actions missing from the generator. Results are published in CSV, formatted text, and (soon) browsable HTML formats.
