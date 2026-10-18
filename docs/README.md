@@ -1,5 +1,7 @@
 ![AWS Services](images/AWSServices.png)
 
+**Click [HERE](AwsServiceActions.html) to go directly to the catalog!**
+
 # AWS Services and IAM Actions Catalog
 This PowerShell script builds a comprehensive, searchable catalog of **AWS services and their associated IAM actions (permissions)**, providing a convenient, consolidated reference for AWS access management. The output includes service names, service prefixes, ARN formats, and individual actions (such as `sts:AssumeRole`), along with their descriptions and access levels (List, Read, Write, Permissions Management, and Tagging). The script extracts information from AWS JavaScript assets, enriching it with AWS documentation, and scanning documentation for additional actions missing from the generator. Results are published in CSV, formatted text, and (soon) browsable HTML formats.
 
@@ -89,16 +91,15 @@ when the data was scraped along with the row count may be found at the bottom of
 In scraping the data, a few anomalies have been observed with the original source data and/or documentation:
 
 * The service shortname '**Ses**' appears twice: once for the '**Amazon Pinpoint Email Service**' and
-again for '**Amazon SES**'.  This idiosyncrasy carries through to the IAM policy creator. 'ses:CreateConfigurationSet' appears several times as a result.
+again for '**Amazon SES**'.  This idiosyncrasy carries through to the IAM policy creator. 'ses:CreateConfigurationSet' appears in several places as a result.
 
 * Sometimes actions are not found in the corresponding documentation pages. This usually occurs when changes
 are out of sync between the documentation and the input to the policy generator.
   These are noted in the CSV.
 
 ---
-# Script
-The data is generated using a PowerShell script which outputs the data for the two CSVs.
-The code isn't fancy but it is functional. Enhancements & suggestions are welcome!
+# PowerShell Script
+The data is generated using a PowerShell script which outputs the data for the two CSVs. A separate script converts the CSVs into HTML.  The code isn't fancy but it is functional. Enhancements & suggestions are welcome! I periodically publish the output to the docs/ folder for easy consumption.
 
 ### Script Parameters
 
@@ -132,9 +133,12 @@ TO GENERATE A CSV OF SERVICES AND ACTIONS:
 		
 TO CONVERT ABOVE CSV TO FORMATTED TEXT:
 
-``"{0,-56} {1,-80} {2,-23} {3}" -f 'ServiceName','Action','AccessLevel','Description' | out-file -FilePath 'AwsServiceActions.txt' -Encoding utf8 -force -width 210; Import-Csv -Path 'AwsServiceActions.csv' | foreach { ("{0,-56} {1,-80} {2,-23} {3}" -f $_.ServiceName, $_.Action, $_.AccessLevel, $_.Description) } | out-file -FilePath 'AwsServiceActions.txt' -width 210 -Encoding utf8 -Append``
+```
+"{0,-56} {1,-80} {2,-23} {3}" -f 'ServiceName','Action','AccessLevel','Description' | out-file -FilePath 'AwsServiceActions.txt' -Encoding utf8 -force -width 210; Import-Csv -Path 'AwsServiceActions.csv' | foreach { ("{0,-56} {1,-80} {2,-23} {3}" -f $_.ServiceName, $_.Action, $_.AccessLevel, $_.Description) } | out-file -FilePath 'AwsServiceActions.txt' -width 210 -Encoding utf8 -Append
+```
 
 TO GET A LIST OF SERVICES only AS A CSV:
+
 ``.\Get-AwsServices.ps1 -ServicesOnly | Export-Csv -Path 'AwsServices.csv' -Encoding utf8 -force``
 
 TO VIEW A LIST OF SERVICES:
@@ -155,6 +159,6 @@ TO SEE A LIST OF ACTIONS FOR A SPECIFIC SERVICE:
 
 ---
 
-# References
+## References
 
 * _Understanding AWS Policies_ - https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_understand.html
