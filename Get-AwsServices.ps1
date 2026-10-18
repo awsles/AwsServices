@@ -29,16 +29,16 @@
 	TO SEE A QUICK VIEW:
 		.\Get-AwsServices.ps1 -ServicesOnly | Out-GridView
 	
-	TO GET A CSV:
-		.\Get-AwsServices.ps1 -AddNote | Export-Csv -Path 'AwsServiceActions.csv' -encoding utf8 -force
+	TO GET A LIST OF SERVICES only AS A CSV:  {DO THIS FIRST!}
+		.\Get-AwsServices.ps1 -ServicesOnly | Export-Csv -Path 'docs\AwsServices.csv' -Encoding utf8 -force
+	
+	TO GET A CSV of services: 
+		.\Get-AwsServices.ps1 -AddNote | Export-Csv -Path 'docs\AwsServiceActions.csv' -encoding utf8 -force
 		
 	TO CONVERT the above AwsServiceActions.CSV TO FORMATTED TEXT:
 		"{0,-56} {1,-80} {2,-23} {3}" -f 'ServiceName','Action','AccessLevel','Description' | out-file -FilePath 'AwsServiceActions.txt' -Encoding utf8 -force -width 210 ;
 		Import-Csv -Path 'AwsServiceActions.csv' | foreach { ("{0,-56} {1,-80} {2,-23} {3}" -f $_.ServiceName, $_.Action, $_.AccessLevel, $_.Description) } | out-file -FilePath 'AwsServiceActions.txt' -width 210 -Encoding utf8 -Append
 
-	TO GET A LIST OF SERVICES only AS A CSV:
-		.\Get-AwsServices.ps1 -ServicesOnly | Export-Csv -Path 'AwsServices.csv' -Encoding utf8 -force
-	
 	TO CONVERT the above AwsServices.CSV TO FORMATTED TEXT:                                                                                                                                         
 		"{0,-56} {1,-25} {2}" -f 'ServiceName','ServiceShortName','ARNFormat' | out-file -FilePath 'AwsServices.txt' -Encoding utf8 -force -width 210 ;
 		Import-Csv -Path 'AwsServices.csv' | foreach { ("{0,-56} {1,-25} {2}" -f $_.ServiceName, $_.ServiceShortName, $_.ARNFormat) } | out-file -FilePath 'AwsServices.txt' -width 210 -Encoding utf8 -Append
@@ -55,6 +55,8 @@
 	
 	INPUT DATA:
 	$WebResponse = Invoke-WebRequest -UseBasicParsing -uri "https://awspolicygen.s3.amazonaws.com/js/policies.js"
+	
+	Be sure to update DocList.csv as needed to address documentation location anomalies.
 		
 .LINK
 	https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_actions-resources-contextkeys.html
@@ -211,7 +213,7 @@ foreach ($service in $ServiceList)
 	$i = $DocPageMap.ServiceName.IndexOf($service)
 	if ($i -ge 0) {
 		$DocPage = $AwsDocRoot.SubString(0,$AwsDocRoot.LastIndexOf('/')+1) + $DocPageMap.page[$i]
-		if ($DocPageMap.SpanPrefix[$i].Length -gt 5) { $SpanKeyName = $DocPageMap.SpanPrefix[$i] }
+		if ($DocPageMap.SpanPrefix[$i].Length -gt 5) { $SpanKeyName = $DocPageMap.SpanPrefix[$i] ; write-verbose "Using $SpanKeyName for $service"}
 	}
 	else {
 		$DocPage = $AwsDocRoot.Replace('%SERVICE%', $ServiceKeyName)  # OLD WAY
@@ -403,7 +405,7 @@ foreach ($service in $ServiceList)
 				$Entry.DocLink2			= ''
 				$Entry.Description		= '--- DOCPAGE NOT FOUND ---'
 				$Entry.AccessLevel		= ''
-				write-Host "  No match found for '$SearchID'"
+				write-Host "  No match found for '$Service' : '$SearchID'"
 #				if ($MasterTable.Count -gt 0) {
 #					write-Host "  No match found for $SearchID"
 #					if ($NoMatchFlag -eq $False) {$NoMatchFlag = $True; pause }
