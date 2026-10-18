@@ -23,6 +23,23 @@ In March 2025, AWS began publishing service reference information in JSON format
 See this [BLOG post](https://aws.amazon.com/blogs/security/use-aws-service-reference-information-to-automate-policy-management-workflows/) and the documentation: [**Simplified AWS service information for programmatic access**](https://docs.aws.amazon.com/service-authorization/latest/reference/service-reference.html). There is also a cool [Daily Notification Tool](https://github.com/aws-samples/service-authorization-reference-diff) lambda. If you're writing / reviewing AWS SCPs (as I often do), then the CSVs and HTML are useful. Paul Santis built an MCP (Model Context Protocol) server ([GitHub](https://github.com/psantus/aws-service-authorization-reference)) based on this AWS Service Information Reference data. This server enables LLMs to retrieve IAM actions, resources and conditions keys. 
 
 
+**FUN FACTS:**
+
+* 18-Oct-26 : There are 22,255 actions across 476 AWS services.
+* 09-Jul-2025 : There are 18,912 actions across 444 AWS services.
+* 11-Apr-2025 : There are 18,569 actions across 439 AWS services.
+* 28-Feb-2025 : There are 18,443 actions across 437 AWS services.
+* 05-Oct-2024 : There are 17,349 actions across 421 AWS services.
+* 25-Aug-2024 : There are 17,190 actions across 420 AWS services.
+* 09-Jan-2024 : There are 16,292 actions across 403 AWS services.
+* 09-Oct-2023 : There are 15,328 actions across 384 AWS services.
+* 12-Jun-2023 : There are 14,720 actions across 377 AWS services.
+* 08-Mar-2023 : There are 14,111 actions across 369 AWS services.
+* 09-Feb-2023 : There are 13,977 actions across 365 AWS services.
+* 05-Dec-2022 : There are 13,662 actions across 354 AWS services.
+* 04-May-2022 : There are 12,388 across 325 AWS services.
+
+
 ## Example outputs
 
 ### AwsServiceActions.html
