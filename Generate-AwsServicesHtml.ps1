@@ -7,10 +7,14 @@
     Reads AwsServices.csv and AwsServiceActions.csv and generates one HTML section
     per service. Each section shows ARNFormat, ARNRegEx, HasResource, and DocLink,
     followed by an expandable table of Action, Description, AccessLevel, DocLink2.
+    Search matches service names, service prefixes, and action names (with or
+    without their service prefix, including partial and case-insensitive matches).
 
     Records are joined on ServiceName, NOT ServiceShortName, because multiple
     services can share the same short name.
 
+    By default, both CSV files are read from the current PowerShell working
+    directory (Get-Location) and the HTML output is written there as well.
     No AWS credentials or PowerShell modules are required.
 
 .EXAMPLE
@@ -22,10 +26,11 @@
 #>
 [CmdletBinding()]
 param(
-    [string]$ServicesCsv = (Join-Path (Get-Location).Path 'AwsServices.csv'),
-    [string]$ActionsCsv  = (Join-Path (Get-Location).Path 'AwsServiceActions.csv'),
-    [string]$OutputHtml  = (Join-Path (Get-Location).Path 'AwsServiceActions.html')
+    [string]$ServicesCsv = (Join-Path -Path (Get-Location).Path -ChildPath 'AwsServices.csv'),
+    [string]$ActionsCsv  = (Join-Path -Path (Get-Location).Path -ChildPath 'AwsServiceActions.csv'),
+    [string]$OutputHtml  = (Join-Path -Path (Get-Location).Path -ChildPath 'AwsServiceActions.html')
 )
+
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
@@ -127,10 +132,11 @@ try {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AWS Services and IAM Actions Catalog</title>
+<!-- https://awsles.github.io/AwsServices/ -->
 <style>
   :root { color-scheme: light; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }
   * { box-sizing: border-box; }
-  body { background: #f4f6fa; color: #182230; margin: 0; line-height: 1.5; }
+  body { background: #ffe3b9; color: #182230; margin: 0; line-height: 1.5; }
   .container { max-width: 1500px; margin: 0 auto; padding: 22px; }
   header { margin-bottom: 22px; }
   h1 { font-size: 1.8rem; margin: 0 0 4px; }
@@ -173,9 +179,9 @@ try {
 '@
     $writer.WriteLine($htmlHeader)
 
-    $writer.WriteLine('  <p class="subtle">' + $services.Count + ' services · ' + ($actionCount - $unmatchedCount) + ' matched IAM actions · Generated ' + (Get-Date -Format 'yyyy-MM-dd HH:mm') + '</p>')
-    $writer.WriteLine('  <label for="serviceFilter">Find a service</label>')
-    $writer.WriteLine('  <input type="search" id="serviceFilter" placeholder="Search by service name or prefix..." autocomplete="off">')
+    $writer.WriteLine('  <p class="subtle">' + $services.Count + ' services · ' + ($actionCount - $unmatchedCount) + ' matched IAM actions · Generated ' + (Get-Date -Format 'yyyy-MM-dd HH:mm') + '<br/>  See <a href="https://awsles.github.io/AwsServices/" target="_blank">awsles.github.io/AwsServices/</a> for more information.</p>')
+    $writer.WriteLine('  <label for="serviceFilter">Find a service or IAM action</label>')
+    $writer.WriteLine('  <input type="search" id="serviceFilter" placeholder="Service name, prefix, or action (e.g. sts:AssumeRole or AssumeRole)..." autocomplete="off">')
     $writer.WriteLine('</header>')
 
     foreach ($service in $services) {
@@ -221,20 +227,37 @@ try {
     }
 
     $htmlFooter = @'
-<p id="noResults" class="no-results" hidden>No matching services.</p>
+<p id="noResults" class="no-results" hidden>No matching services or IAM actions.</p>
 </div>
 <script>
 (function () {
     'use strict';
     const filter = document.getElementById('serviceFilter');
-    const sections = document.querySelectorAll('section.service');
     const noResults = document.getElementById('noResults');
+
+    // Index action names once, rather than traversing thousands of table cells
+    // on every keystroke. Read only the Action column (not descriptions or URLs).
+    const index = Array.from(document.querySelectorAll('section.service'), function (section) {
+        const actions = Array.from(
+            section.querySelectorAll('table.actions tbody tr td:first-child code'),
+            function (cell) { return cell.textContent.toLowerCase(); }
+        );
+        return {
+            section: section,
+            service: section.dataset.search.toLowerCase(),
+            actions: actions
+        };
+    });
+
     filter.addEventListener('input', function () {
-        const query = filter.value.trim().toLocaleLowerCase();
+        const query = filter.value.trim().toLowerCase();
         let matches = 0;
-        sections.forEach(function (section) {
-            const visible = section.dataset.search.includes(query);
-            section.hidden = !visible;
+        index.forEach(function (entry) {
+            // Searching "AssumeRole" matches "sts:AssumeRole"; a prefixed
+            // search such as "sts:AssumeRole" also matches directly.
+            const visible = !query || entry.service.includes(query) ||
+                entry.actions.some(function (action) { return action.includes(query); });
+            entry.section.hidden = !visible;
             if (visible) matches++;
         });
         noResults.hidden = (matches !== 0);
