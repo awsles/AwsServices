@@ -4,10 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AWS Services and IAM Actions Catalog</title>
+<!-- https://awsles.github.io/AwsServices/ -->
 <style>
   :root { color-scheme: light; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }
   * { box-sizing: border-box; }
-  body { background: #f4f6fa; color: #182230; margin: 0; line-height: 1.5; }
+  body { background: #ffe3b9; color: #182230; margin: 0; line-height: 1.5; }
   .container { max-width: 1500px; margin: 0 auto; padding: 22px; }
   header { margin-bottom: 22px; }
   h1 { font-size: 1.8rem; margin: 0 0 4px; }
@@ -47,9 +48,9 @@
 <div class="container">
 <header>
   <h1>AWS Services and IAM Actions Catalog</h1>
-  <p class="subtle">475 services · 22130 matched IAM actions · Generated 2026-10-18 10:24</p>
-  <label for="serviceFilter">Find a service</label>
-  <input type="search" id="serviceFilter" placeholder="Search by service name or prefix..." autocomplete="off">
+  <p class="subtle">475 services · 22130 matched IAM actions · Generated 2026-10-18 10:58<br/>  See <a href="https://awsles.github.io/AwsServices/" target="_blank">awsles.github.io/AwsServices/</a> for more information.</p>
+  <label for="serviceFilter">Find a service or IAM action</label>
+  <input type="search" id="serviceFilter" placeholder="Service name, prefix, or action (e.g. sts:AssumeRole or AssumeRole)..." autocomplete="off">
 </header>
 <section class="service" data-search="account access manager (account-access)">
   <h2>Account access manager (account-access)</h2>
@@ -28832,20 +28833,37 @@ Central</td><td>List</td><td><a href="https://docs.aws.amazon.com/partner-centra
     </tbody></table>
   </details>
 </section>
-<p id="noResults" class="no-results" hidden>No matching services.</p>
+<p id="noResults" class="no-results" hidden>No matching services or IAM actions.</p>
 </div>
 <script>
 (function () {
     'use strict';
     const filter = document.getElementById('serviceFilter');
-    const sections = document.querySelectorAll('section.service');
     const noResults = document.getElementById('noResults');
+
+    // Index action names once, rather than traversing thousands of table cells
+    // on every keystroke. Read only the Action column (not descriptions or URLs).
+    const index = Array.from(document.querySelectorAll('section.service'), function (section) {
+        const actions = Array.from(
+            section.querySelectorAll('table.actions tbody tr td:first-child code'),
+            function (cell) { return cell.textContent.toLowerCase(); }
+        );
+        return {
+            section: section,
+            service: section.dataset.search.toLowerCase(),
+            actions: actions
+        };
+    });
+
     filter.addEventListener('input', function () {
-        const query = filter.value.trim().toLocaleLowerCase();
+        const query = filter.value.trim().toLowerCase();
         let matches = 0;
-        sections.forEach(function (section) {
-            const visible = section.dataset.search.includes(query);
-            section.hidden = !visible;
+        index.forEach(function (entry) {
+            // Searching "AssumeRole" matches "sts:AssumeRole"; a prefixed
+            // search such as "sts:AssumeRole" also matches directly.
+            const visible = !query || entry.service.includes(query) ||
+                entry.actions.some(function (action) { return action.includes(query); });
+            entry.section.hidden = !visible;
             if (visible) matches++;
         });
         noResults.hidden = (matches !== 0);
