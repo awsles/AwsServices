@@ -179,7 +179,7 @@ try {
 '@
     $writer.WriteLine($htmlHeader)
 
-    $writer.WriteLine('  <p class="subtle">' + $services.Count + ' services · ' + ($actionCount - $unmatchedCount) + ' matched IAM actions · Generated ' + (Get-Date -Format 'yyyy-MM-dd HH:mm') + '<br/>  See <a href="https://awsles.github.io/AwsServices/" target="_blank">awsles.github.io/AwsServices/</a> for more information.</p>')
+    $writer.WriteLine('  <p class="subtle">' + $services.Count + ' services · ' + ($actionCount - $unmatchedCount) + ' matched IAM actions · Generated ' + (Get-Date -Format 'yyyy-MM-dd HH:mm') + '<br/>  See <a href="https://awsles.github.io/AwsServices/" target="_blank">awsles.github.io/AwsServices/</a> for more information and CSV data.</p>')
     $writer.WriteLine('  <label for="serviceFilter">Find a service or IAM action</label>')
     $writer.WriteLine('  <input type="search" id="serviceFilter" placeholder="Service name, prefix, or action (e.g. sts:AssumeRole or AssumeRole)..." autocomplete="off">')
     $writer.WriteLine('</header>')
