@@ -100,6 +100,7 @@ class AwsService
 	[string] $HasResource
 	[string] $DocLink
 	# IsDeprecated b
+	# TO DO: Add $Description
 }
 
 class AwsAction
@@ -222,6 +223,7 @@ foreach ($service in $ServiceList)
 	$ServiceEntry = New-Object AwsService
 	$ServiceEntry.ServiceShortName	= $ServiceItem.StringPrefix
 	$ServiceEntry.ServiceName 		= $service
+#	$ServiceEntry.Description 		= ""   # TODO! Meanwhile, use ServiceDescriptions.csv
 	$ServiceEntry.Actions 			= ($ServiceItem.Actions | ConvertTo-json -compress)
 	$ServiceEntry.ARNFormat 		= $ServiceItem.ARNFormat
 	$ServiceEntry.ARNRegex			= $ServiceItem.ARNRegex
