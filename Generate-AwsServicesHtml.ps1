@@ -4,17 +4,19 @@
     Generate a self-contained, browsable HTML catalog of AWS services and IAM actions.
 
 .DESCRIPTION
-    Reads AwsServices.csv and AwsServiceActions.csv and generates one HTML section
-    per service. Each section shows ARNFormat, ARNRegEx, HasResource, and DocLink,
-    followed by an expandable table of Action, Description, AccessLevel, DocLink2.
+    Reads AwsServices.csv, AwsServiceActions.csv, and AwsServiceDescriptions.csv
+    and generates one HTML section per service. Each section shows the service
+    description immediately below the title, followed by ARNFormat, ARNRegEx,
+    HasResource, and DocLink, then an expandable table of Action, Description,
+    AccessLevel, and DocLink2. SourceURL in the descriptions CSV is ignored.
     Search matches service names, service prefixes, and action names (with or
     without their service prefix, including partial and case-insensitive matches).
 
     Records are joined on ServiceName, NOT ServiceShortName, because multiple
     services can share the same short name.
 
-    By default, both CSV files are read from the current PowerShell working
-    directory (Get-Location) and the HTML output is written there as well.
+    By default, all three CSV files are read from the current PowerShell working
+    directory (Get-Location), and the HTML output is written there as well.
     No AWS credentials or PowerShell modules are required.
 
 .EXAMPLE
@@ -22,13 +24,16 @@
 
 .EXAMPLE
     .\Generate-AwsServicesHtml.ps1 -ServicesCsv .\AwsServices.csv `
-        -ActionsCsv .\AwsServiceActions.csv -OutputHtml .\AwsServiceActions.html
+        -ActionsCsv .\AwsServiceActions.csv `
+        -DescriptionsCsv .\AwsServiceDescriptions.csv `
+        -OutputHtml .\AwsServiceActions.html
 #>
 [CmdletBinding()]
 param(
-    [string]$ServicesCsv = (Join-Path -Path (Get-Location).Path -ChildPath 'AwsServices.csv'),
-    [string]$ActionsCsv  = (Join-Path -Path (Get-Location).Path -ChildPath 'AwsServiceActions.csv'),
-    [string]$OutputHtml  = (Join-Path -Path (Get-Location).Path -ChildPath 'AwsServiceActions.html')
+    [string]$ServicesCsv     = (Join-Path -Path (Get-Location).Path -ChildPath 'AwsServices.csv'),
+    [string]$ActionsCsv      = (Join-Path -Path (Get-Location).Path -ChildPath 'AwsServiceActions.csv'),
+    [string]$DescriptionsCsv = (Join-Path -Path (Get-Location).Path -ChildPath 'AwsServiceDescriptions.csv'),
+    [string]$OutputHtml      = (Join-Path -Path (Get-Location).Path -ChildPath 'AwsServiceActions.html')
 )
 
 Set-StrictMode -Version Latest
@@ -56,7 +61,7 @@ function Format-DocLink {
     return '<code>' + $safeUrl + '</code>'
 }
 
-foreach ($file in @($ServicesCsv, $ActionsCsv)) {
+foreach ($file in @($ServicesCsv, $ActionsCsv, $DescriptionsCsv)) {
     if (-not (Test-Path -LiteralPath $file -PathType Leaf)) {
         throw "Input CSV not found: $file"
     }
@@ -73,6 +78,36 @@ foreach ($column in @('ServiceName', 'ServiceShortName', 'ARNFormat', 'ARNRegex'
     if ($null -eq $services[0].PSObject.Properties[$column]) {
         throw "AwsServices.csv is missing the required column '$column'."
     }
+}
+
+# Index service descriptions by ServiceName. Keep the first non-blank description
+# for any duplicate name; SourceURL is deliberately ignored.
+$descriptionsByService = [System.Collections.Generic.Dictionary[string,string]]::new(
+    [System.StringComparer]::OrdinalIgnoreCase
+)
+$descriptionSchemaChecked = $false
+Import-Csv -LiteralPath $DescriptionsCsv -Encoding UTF8 | ForEach-Object {
+    $record = $_
+    if (-not $descriptionSchemaChecked) {
+        foreach ($column in @('ServiceName', 'Description')) {
+            if ($null -eq $record.PSObject.Properties[$column]) {
+                throw "AwsServiceDescriptions.csv is missing the required column '$column'."
+            }
+        }
+        $descriptionSchemaChecked = $true
+    }
+
+    if (-not [string]::IsNullOrWhiteSpace($record.ServiceName) -and
+        -not $record.ServiceName.TrimStart().StartsWith('#') -and
+        -not [string]::IsNullOrWhiteSpace($record.Description)) {
+        $name = $record.ServiceName.Trim()
+        if (-not $descriptionsByService.ContainsKey($name)) {
+            $descriptionsByService.Add($name, $record.Description.Trim())
+        }
+    }
+}
+if (-not $descriptionSchemaChecked) {
+    Write-Warning 'AwsServiceDescriptions.csv has no description records.'
 }
 
 # Stream the much larger actions CSV into lists indexed by exact ServiceName.
@@ -145,6 +180,7 @@ try {
   #serviceFilter { width: 100%; max-width: 560px; padding: 10px 12px; font-size: 1rem; border: 1px solid #b5c0cf; border-radius: 6px; }
   .service { background: #fff; border: 1px solid #d7dfe9; border-radius: 8px; margin: 0 0 20px; padding: 16px 20px 18px; }
   h2 { font-size: 1.25rem; margin: 0 0 12px; color: #182c48; overflow-wrap: anywhere; }
+  .service-description { margin: -3px 0 14px; color: #344256; white-space: pre-line; overflow-wrap: anywhere; }
   table { width: 100%; border-collapse: collapse; table-layout: fixed; }
   th, td { border: 1px solid #dce2ea; padding: 8px 10px; text-align: left; vertical-align: top; overflow-wrap: anywhere; }
   th { background: #eaf0f7; }
@@ -198,6 +234,10 @@ try {
 
         $writer.WriteLine('<section class="service" data-search="' + $filterText + '">')
         $writer.WriteLine('  <h2>' + $encodedHeading + '</h2>')
+        if ($descriptionsByService.ContainsKey($name)) {
+            $writer.WriteLine('  <p class="service-description">' +
+                (Encode-Html $descriptionsByService[$name]) + '</p>')
+        }
         $writer.WriteLine('  <table class="attributes"><tbody>')
         $writer.WriteLine('    <tr><td>ARNFormat</td><td><code>' + (Encode-Html $service.ARNFormat) + '</code></td></tr>')
         $writer.WriteLine('    <tr><td>ARNRegEx</td><td><code>' + (Encode-Html $service.ARNRegex) + '</code></td></tr>')
