@@ -51,13 +51,13 @@ Because AWS does not provide a single API for retrieving a complete catalog of s
 The documentation page is also scanned for any actions that may not appear in the javascript asset list.
 
 The AWS documentation may be found at:
-https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_actions-resources-contextkeys.html
+[https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_actions-resources-contextkeys.html](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_actions-resources-contextkeys.html)
 
 The list of AWS Policy Global Condition keys may be found at:
-https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#AvailableKeys
+[https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#AvailableKeys](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#AvailableKeys)
 
 A similar script for Azure permissions may be found at:
-https://github.com/leswaters/AzureServices
+[https://github.com/leswaters/AzureServices](https://github.com/leswaters/AzureServices)
 
 ## Anomalies
 In scraping the data, a few anomalies have been observed with the original source data and/or documentation:
