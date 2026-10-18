@@ -41,12 +41,12 @@ This lengthy CSV (over 7MB) consists of all services, their respective actions, 
 EXAMPLE:
 
 | **ServiceName** | **Action** | **Description** | **AccessLevel** | **Doc** | **Doc2** |
-| --- | —— | ———– | ———– | — | —- |
+|---|---|---|---|---|---|
 | AWS Security Token Service | **sts:AssumeRole** | Grants permission to obtain a set of temporary security credentials that you can use to access AWS resources that you might not normally have access to | Write | [Doc](https://docs.aws.amazon.com/service-authorization/latest/reference/list_sts.html) | [Doc2](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html) |
 | AWS Security Token Service | **sts:AssumeRoleWithSAML** | Grants permission to obtain a set of temporary security credentials for users who have been authenticated via a SAML authentication response | Write | [Doc](https://docs.aws.amazon.com/service-authorization/latest/reference/list_sts.html) | [Doc2](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoleWithSAML.html) |
 | AWS Security Token Service | **sts:AssumeRoleWithWebIdentity** | Grants permission to obtain a set of temporary security credentials for users who have been authenticated in a mobile or web application with a web identity provider | Write | [Doc](https://docs.aws.amazon.com/service-authorization/latest/reference/list_sts.html) | [Doc2](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoleWithWebIdentity.html) |
 | ... | ... | ... | ... | ... |  ... |
-| Amazon S3 | s3:AbortMultipartUpload | Grants permission to abort a multipart upload | Write | [Doc](https://docs.aws.amazon.com/service-authorization/latest/reference/list_s3.html) | [Doc2](https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html) | 
+| Amazon S3 | **s3:AbortMultipartUpload** | Grants permission to abort a multipart upload | Write | [Doc](https://docs.aws.amazon.com/service-authorization/latest/reference/list_s3.html) | [Doc2](https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html) | 
 
 ## Notes
 Comment lines in the CSV (including the header at the top) start with a hashtag (#).  The date
