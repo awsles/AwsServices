@@ -15,6 +15,7 @@ The catalog is updated periodically and usually includes a DIFF (what is new, di
 * [AwsServiceActions.csv](AwsServiceActions.csv) - List of AWS services and actions in CSV format (~7MB)
 * [AwsServices.csv](AwsServices.csv) - List of AWS services only (~733KB)
 * [AwsServices.txt](AwsServices.txt) - List of AWS Services as formatted text
+* [AwsHistory.txt](AwsHistory.txt) - Summary of discovered changes (additions & deletions) since the last catalog
 
 This catalog is primarily an IAM permissions reference, rather than an exhaustive list of callable AWS API operations. These concepts frequently overlap but are not interchangeable: an API operation may require multiple IAM actions, and some IAM permissions are not directly associated with an API operation. AWS explicitly distinguishes them in its [Service Authorization Reference](https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html?).
 
