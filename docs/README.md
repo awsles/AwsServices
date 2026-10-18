@@ -58,7 +58,10 @@ EXAMPLE:
 | AWS Security Token Service | **sts:AssumeRoleWithSAML** | Grants permission to obtain a set of temporary security credentials for users who have been authenticated via a SAML authentication response | Write | [Doc](https://docs.aws.amazon.com/service-authorization/latest/reference/list_sts.html) | [Doc2](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoleWithSAML.html) |
 | AWS Security Token Service | **sts:AssumeRoleWithWebIdentity** | Grants permission to obtain a set of temporary security credentials for users who have been authenticated in a mobile or web application with a web identity provider | Write | [Doc](https://docs.aws.amazon.com/service-authorization/latest/reference/list_sts.html) | [Doc2](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoleWithWebIdentity.html) |
 | ... | ... | ... | ... | ... |  ... |
-| Amazon S3 | **s3:AbortMultipartUpload** | Grants permission to abort a multipart upload | Write | [Doc](https://docs.aws.amazon.com/service-authorization/latest/reference/list_s3.html) | [Doc2](https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html) | 
+| Amazon S3 | **s3:AbortMultipartUpload** | Grants permission to abort a multipart upload | Write | [Doc](https://docs.aws.amazon.com/service-authorization/latest/reference/list_s3.html) | [Doc2](https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html) |
+
+*Doc* is the service documentation page; *Doc2* is the specific documentation for the associated action.
+
 
 ## Notes
 Data is retrieved entirely from public information. Comment lines in the CSV (including the header at the top) start with a hashtag (#).  The date
