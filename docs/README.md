@@ -12,6 +12,14 @@ The catalog is updated periodically and usually includes a DIFF (what is new, di
 * [AwsServices.csv](AwsServices.csv) - List of AWS services only (~733KB)
 * [AwsServices.txt](AwsServices.txt) - List of AWS Services as formatted text
 
+UPDATE:
+As of March 2025, AWS publishes service reference information in JSON format (updated ~daily). This is great for *programmatic* use.
+See this [BLOG post](https://aws.amazon.com/blogs/security/use-aws-service-reference-information-to-automate-policy-management-workflows/) and the documentation: [**Simplified AWS service information for programmatic access**](https://docs.aws.amazon.com/service-authorization/latest/reference/service-reference.html)
+If you're writing / reviewing AWS SCPs (as I often do), then I find the CSVs to be useful.
+
+Paul Santis built an MCP (Model Context Protocol) server ([GitHub](https://github.com/psantus/aws-service-authorization-reference)) based on this AWS Service Information Reference data. This server enables LLMs to retrieve IAM actions, resources and conditions keys. 
+
+
 ## Example outputs
 
 ### AwsServices.txt
