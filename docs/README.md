@@ -9,7 +9,7 @@ The catalog is updated periodically and usually includes a DIFF (what is new, di
 
 **LAST UDATE:** `30-Sep-26`
 
-* [AwsServiceActions.html](AwsServiceActions.html) - List of AWS services and actions in expandable HTML format
+* [AwsServiceActions.html](AwsServiceActions.html) - List of AWS services and actions in expandable and searchable HTML format
 * [AwsServiceActions.csv](AwsServiceActions.csv) - List of AWS services and actions in CSV format (~7MB)
 * [AwsServices.csv](AwsServices.csv) - List of AWS services only (~733KB)
 * [AwsServices.txt](AwsServices.txt) - List of AWS Services as formatted text
@@ -27,7 +27,7 @@ This is the complete service and action catalog in HTML format (excluding condit
 
 EXAMPLE:
 
-![AWS Services](images/Catalog_HTML.png){width=600}
+![AWS Services](images/Catalog_HTML.png)
 
 
 ### AwsServices.txt
