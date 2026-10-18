@@ -22,6 +22,13 @@ See this [BLOG post](https://aws.amazon.com/blogs/security/use-aws-service-refer
 
 ## Example outputs
 
+### AwsServiceActions.html
+This is the complete service and action catalog in HTML format, complete with search capability.
+
+EXAMPLE:
+![AWS Services](images/Catalog_HTML2.png)
+
+
 ### AwsServices.txt
 This is formatted text output that lists each Service Name, its short name, and ARN format. For example:
 
