@@ -1,0 +1,17 @@
+﻿========================= AwsHistory.txt =========================
+This file contains the observed history of AWS Services and Actions.
+Where previous results are provided, a comparison is displayed with observed changes.
+
+See [AwsHistory (through 09-Jul-2025).txt](https://github.com/awsles/AwsServices/blob/master/AwsHistory (through 09-Jul-2025).txt) for previous history.
+
+====================================================================================================
+30-Sep-2026 : There are 22130 actions across 475 AWS services.
+              0 changes have been detected: 0 new; 0 deprecated.
+There are 0 new service names and 0 deprecated service names.
+
+**NOTE:** Given the length of time that has elapsed, the change detection was skipped for this version.
+
+
+
+
+
