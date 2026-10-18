@@ -9,7 +9,7 @@ This catalog is particularly valuable to **AWS administrators, cloud architects,
 
 The catalog is updated periodically and usually includes a DIFF (what is new, different, and obsoleted) from the previous time it was run. 
 
-**LAST CATALOG UDATE:** `30-Sep-26`
+**LAST CATALOG UDATE:** `18-Oct-26`
 
 * [AwsServiceActions.html](AwsServiceActions.html) - List of AWS services and actions in expandable and searchable HTML format
 * [AwsServiceActions.csv](AwsServiceActions.csv) - List of AWS services and actions in CSV format (~7MB)
@@ -26,7 +26,7 @@ See this [BLOG post](https://aws.amazon.com/blogs/security/use-aws-service-refer
 ## Example outputs
 
 ### AwsServiceActions.html
-This is the complete service and action catalog in HTML format (excluding condition keys) with search capability.
+This is the complete service and action catalog in HTML format (excluding condition keys) [here](AwsServiceActions.html) with search capability.
 
 EXAMPLE:
 
