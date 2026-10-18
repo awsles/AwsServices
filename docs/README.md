@@ -14,15 +14,12 @@ The catalog is updated periodically and usually includes a DIFF (what is new, di
 * [AwsServices.csv](AwsServices.csv) - List of AWS services only (~733KB)
 * [AwsServices.txt](AwsServices.txt) - List of AWS Services as formatted text
 
-**NOTES:**
-The PowerShell script may be found in GitHub [here](https://github.com/awsles/awsservices).
+This catalog is primarily an IAM permissions reference, rather than an exhaustive list of callable AWS API operations. These concepts frequently overlap but are not interchangeable: an API operation may require multiple IAM actions, and some IAM permissions are not directly associated with an API operation. AWS explicitly distinguishes them in its [Service Authorization Reference](https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html?).
 
-* This catalog is primarily an IAM permissions reference, rather than an exhaustive list of callable AWS API operations. These concepts frequently overlap but are not interchangeable: an API operation may require multiple IAM actions, and some IAM permissions are not directly associated with an API operation. AWS explicitly distinguishes them in its [Service Authorization Reference](https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html?).
-
-* In March 2025, AWS began publishing service reference information in JSON format - an awesome resource for *programmatic* use!
+In March 2025, AWS began publishing service reference information in JSON format - an awesome resource for *programmatic* use!
 See this [BLOG post](https://aws.amazon.com/blogs/security/use-aws-service-reference-information-to-automate-policy-management-workflows/) and the documentation: [**Simplified AWS service information for programmatic access**](https://docs.aws.amazon.com/service-authorization/latest/reference/service-reference.html). There is also a cool [Daily Notification Tool](https://github.com/aws-samples/service-authorization-reference-diff) lambda. If you're writing / reviewing AWS SCPs (as I often do), then the CSVs and HTML are useful.
 
-* Paul Santis built an MCP (Model Context Protocol) server ([GitHub](https://github.com/psantus/aws-service-authorization-reference)) based on this AWS Service Information Reference data. This server enables LLMs to retrieve IAM actions, resources and conditions keys. 
+Paul Santis built an MCP (Model Context Protocol) server ([GitHub](https://github.com/psantus/aws-service-authorization-reference)) based on this AWS Service Information Reference data. This server enables LLMs to retrieve IAM actions, resources and conditions keys. 
 
 
 ## Example outputs
@@ -65,19 +62,19 @@ EXAMPLE:
 
 ## Notes
 Data is retrieved entirely from public information. Comment lines in the CSV (including the header at the top) start with a hashtag (#).  The date
-when the data was scraped along with the row count may be found at the bottom of each CSV.
+when the data was scraped along with the row count may be found at the bottom of each CSV. Because AWS does not provide a single API for retrieving a complete catalog of services and operations, the script uses a *best-effort discovery process*, extracting information from JavaScript assets used by the [AWS Policy Generator](https://awspolicygen.s3.amazonaws.com/policygen.html). In addition, the respective documentation pages are also scraped for the description and access level information. The documentation page is also scanned for any actions that may not appear in the JavaScript asset list.
 
-Because AWS does not provide a single API for retrieving a complete catalog of services and operations, the script uses a *best-effort discovery process*, extracting information from JavaScript assets used by the [AWS Policy Generator](https://awspolicygen.s3.amazonaws.com/policygen.html). In addition, the respective documentation pages are also scraped for the description and access level information.
-The documentation page is also scanned for any actions that may not appear in the JavaScript asset list.
-
-The AWS documentation may be found at:
+* The AWS documentation may be found at:
 [https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_actions-resources-contextkeys.html](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_actions-resources-contextkeys.html)
 
-The list of AWS Policy Global Condition keys may be found at:
+* The list of AWS Policy Global Condition keys may be found at:
 [https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#AvailableKeys](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#AvailableKeys)
 
-A similar script for Azure permissions may be found at:
+* A similar script for Azure permissions may be found at:
 [https://github.com/leswaters/AzureServices](https://github.com/leswaters/AzureServices)
+
+* The PowerShell script may be found in GitHub [here](https://github.com/awsles/awsservices).
+
 
 ## Anomalies
 In scraping the data, a few anomalies have been observed with the original source data and/or documentation:
