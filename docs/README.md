@@ -22,6 +22,8 @@ This catalog is primarily an IAM permissions reference, rather than an exhaustiv
 In March 2025, AWS began publishing service reference information in JSON format - an awesome resource for *programmatic* use!
 See this [BLOG post](https://aws.amazon.com/blogs/security/use-aws-service-reference-information-to-automate-policy-management-workflows/) and the documentation: [**Simplified AWS service information for programmatic access**](https://docs.aws.amazon.com/service-authorization/latest/reference/service-reference.html). There is also a cool [Daily Notification Tool](https://github.com/aws-samples/service-authorization-reference-diff) lambda. If you're writing / reviewing AWS SCPs (as I often do), then the CSVs and HTML are useful. Paul Santis built an MCP (Model Context Protocol) server ([GitHub](https://github.com/psantus/aws-service-authorization-reference)) based on this AWS Service Information Reference data. This server enables LLMs to retrieve IAM actions, resources and conditions keys. 
 
+For the Azure equivalent, see [https://awsles.github.io/AzureServices/](https://awsles.github.io/AzureServices/).
+
 
 **FUN FACTS:**
 
