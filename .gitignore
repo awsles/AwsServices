@@ -2,3 +2,6 @@
 *.lnk
 *.url
 .temp/
+*.bloom
+*.rbit
+
